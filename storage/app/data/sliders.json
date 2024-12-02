@@ -1,0 +1,97 @@
+[
+    {
+        "name": null,
+        "description": null,
+        "key": "MAIN_SLIDER",
+        "thumbnails": [],
+        "slides": [
+            {
+                "title": "در ستایش زندگی...",
+                "description": "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت",
+                "image": "Images/Slider/01/Slide/01.png",
+                "ordering": 1,
+                "link": null,
+                "button": {
+                    "title": "پذیرش آنلاین",
+                    "link": "https://pa.nikan365.ir/online-turning?selectedTab=0&turnTypeId=2"
+                }
+            }
+        ]
+    },
+    {
+        "name": "نیکان 365",
+        "description": "سامانه آنلاین جامع بیمارستان نیکان",
+        "key": "SECTION_TWO",
+        "thumbnails": [
+            "Images/Slider/02/01.png"
+        ],
+        "slides": [
+            {
+                "title": "پرونده الکترونیک",
+                "description": null,
+                "image": "Images/Slider/02/Slide/01.png",
+                "ordering": 1,
+                "link": null,
+                "button": {}
+            },
+            {
+                "title": "خدمات در منزل",
+                "description": null,
+                "image": "Images/Slider/02/Slide/02.png",
+                "ordering": 2,
+                "link": null,
+                "button": {}
+            },
+            {
+                "title": "نتایج آزمایشات",
+                "description": null,
+                "image": "Images/Slider/02/Slide/03.png",
+                "ordering": 3,
+                "link": null,
+                "button": {}
+            },
+            {
+                "title": "فیزیوتراپی",
+                "description": null,
+                "image": "Images/Slider/02/Slide/04.png",
+                "ordering": 4,
+                "link": null,
+                "button": {}
+            }
+        ]
+    },
+    {
+        "name": "چرا نیکان انتخاب اول درمانی مردم است",
+        "description": null,
+        "key": "SECTION_THREE",
+        "thumbnails": [
+            "Images/Slider/03/01.png"
+        ],
+        "slides": [
+            {
+                "title": "پیشگیری و مراقبت متمایز",
+                "description": "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و لورم ایپسوم متن ساختگی با تولید سادگی",
+                "image": "Images/Slider/03/Slide/01.png",
+                "ordering": 1,
+                "link": null,
+                "button": {}
+            },
+            {
+                "title": "پیشگیری و مراقبت متمایز",
+                "description": null,
+                "image": "Images/Slider/03/Slide/02.png",
+                "ordering": 2,
+                "link": null,
+                "button": {}
+            },
+            {
+                "title": "پیشگیری و مراقبت متمایز",
+                "description": "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و لورم ایپسوم متن ساختگی با تولید سادگی",
+                "image": "Images/Slider/03/Slide/03.png",
+                "ordering": 3,
+                "link": null,
+                "button": {}
+            }
+        ]
+    }
+]
