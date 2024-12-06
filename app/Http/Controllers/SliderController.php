@@ -25,7 +25,7 @@ class SliderController extends Controller
      */
     public function index(): ResourceCollection
     {
-        $sliders = Slider::orderBy('ordering')->get();
+        $sliders = Slider::with('slides')->get();
         return SliderResource::collection($sliders);
     }
 

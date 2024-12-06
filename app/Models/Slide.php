@@ -19,6 +19,6 @@ class Slide extends Model implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this->addMediaConversion('thumbnails');
+        $this->addMediaConversion('images');
     }
 }

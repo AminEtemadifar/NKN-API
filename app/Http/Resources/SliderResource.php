@@ -37,8 +37,11 @@ class SliderResource extends JsonResource
         return [
             'name' => $this->name,
             'description' => $this->description,
+            'key' => $this->key,
             'thumbnails' => FileResource::collection($this->getMedia('thumbnails')),
-            'ordering' => $this->ordering,
+            'slides' => $this->whenLoaded('slides', function () {
+                return SlideResource::collection($this->slides);
+            })
         ];
     }
 }

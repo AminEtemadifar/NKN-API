@@ -20,7 +20,7 @@ class Slider extends Model implements HasMedia
 
     public function slides()
     {
-        return $this->hasMany(Slide::class , 'slider_id' , 'id');
+        return $this->hasMany(Slide::class , 'slider_id' , 'id')->orderBy('ordering');
     }
 
 }
