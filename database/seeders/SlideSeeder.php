@@ -27,7 +27,7 @@ class SlideSeeder extends Seeder
                 if (file_exists($imagePath)) {
                     $slide->addMedia($imagePath)
                         ->preservingOriginal()
-                        ->toMediaCollection('images');
+                        ->toMediaCollection('image');
                 }
             }
 
