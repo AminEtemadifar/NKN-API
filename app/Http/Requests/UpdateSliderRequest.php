@@ -10,11 +10,17 @@ use Illuminate\Validation\Rule;
 class UpdateSliderRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * @OA\Schema(
+     *      schema="UpdateSliderRequest",
+     *      title="UpdateSliderRequest",
+     *      description="Update Slider request body data",
+     *      type="object",
+     *      required={"name"}
+     * )
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,11 +31,10 @@ class UpdateSliderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'nullable|string',
             'thumbnails' => 'array',
             'thumbnails.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'description' => 'nullable|string',
-            'ordering' => 'required|integer|unique:sliders,ordering',
         ];
     }
 }

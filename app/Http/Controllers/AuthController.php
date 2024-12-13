@@ -6,6 +6,7 @@ use App\Http\Requests\StoreAuthRequest;
 use App\Http\Requests\UpdateAuthRequest;
 use App\Http\Resources\AuthResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\UnauthorizedException;
 use Laravel\Passport\RefreshToken;
 
@@ -29,10 +30,10 @@ class AuthController extends Controller
         if (Auth::guard('web')->attempt($credentials)) {
             $user = Auth::guard('web')->user();
             $token = $user->createToken('WebApp')->accessToken;
-            $refreshToken = $user->createToken('WebApp', ['refresh'])->accessToken;
+            //$refreshToken = $user->createToken('WebApp', ['refresh'])->accessToken;
             return AuthResource::make($user)->additional([
                 'token' => $token,
-                'refresh_token' => $refreshToken,
+                //'refresh_token' => $refreshToken,
             ]);
         } else {
             throw new UnauthorizedException();

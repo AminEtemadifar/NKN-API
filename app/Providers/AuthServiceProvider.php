@@ -16,7 +16,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Passport::ignoreRoutes();
     }
 
     /**
@@ -24,7 +23,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+        Passport::enablePasswordGrant();
+        Passport::tokensExpireIn(now()->addDays(15));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
         // Define gates for roles
         $roles = Role::all();
         foreach ($roles as $role) {

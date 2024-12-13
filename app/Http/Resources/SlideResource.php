@@ -18,7 +18,7 @@ class SlideResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'link' => $this->link,
-            'image' => FileResource::make($this->getMedia('image')),
+            'image' => FileResource::make($this->getFirstMedia('image')),
             'button' => $this->when(!empty($this->extra_data) && !empty($this->extra_data->button), function () {
                 return $this->extra_data->button;
             })

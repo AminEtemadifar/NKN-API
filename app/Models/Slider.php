@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -11,13 +12,12 @@ class Slider extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    protected $fillable = ['title', 'description', 'key'];
+    protected $fillable = ['name', 'description', 'key'];
 
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumbnails');
     }
-
     public function slides()
     {
         return $this->hasMany(Slide::class , 'slider_id' , 'id')->orderBy('ordering');
