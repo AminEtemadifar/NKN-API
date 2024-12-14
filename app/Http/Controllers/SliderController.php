@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateSliderRequest;
 use App\Http\Resources\SliderResource;
+use App\Models\Slide;
 use App\Models\Slider;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -75,6 +76,7 @@ class SliderController extends Controller
      */
     public function show(Slider $slider)
     {
+        $slider = Slider::with('slides')->find($slider->id);
         return SliderResource::make($slider);
     }
 
