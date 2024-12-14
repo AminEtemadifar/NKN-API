@@ -12,7 +12,7 @@ class Slide extends Model implements HasMedia
 {
     use InteractsWithMedia , SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'ordering', 'slider_id', 'link', 'extra_data'];
+    protected $fillable = ['title', 'description', 'ordering', 'slider_id', 'link', 'extra_data'];
 
     protected $casts = [
         'extra_data' => 'object'

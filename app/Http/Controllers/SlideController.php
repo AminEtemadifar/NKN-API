@@ -12,7 +12,37 @@ class SlideController extends Controller
 {
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/slides",
+     *      tags={"Slides"},
+     *      summary="Store new Slide",
+     *      description="Returns created Slide data",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\RequestBody(
+     *           required=true,
+     *           @OA\MediaType(
+     *               mediaType="multipart/form-data",
+     *               @OA\Schema(ref="#/components/schemas/StoreResourceRequest")
+     *           ),
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/SlideResource")
+     *      ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Resource Not Found"
+     *     )
+     * )
      */
     public function store(StoreSlideRequest $request)
     {
@@ -32,7 +62,39 @@ class SlideController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/slides/{id}",
+     *      tags={"Slides"},
+     *      summary="Get Slide information",
+     *      description="Returns Slide data",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Slide id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/SlideResource")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function show(Slide $slide)
     {
@@ -40,7 +102,54 @@ class SlideController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *      path="/slides/{id}",
+     *      tags={"Slides"},
+     *      summary="Update existing Slide",
+     *      description="Returns updated Slide data",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Slide id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(ref="#/components/schemas/UpdateResourceRequest")
+     *          ),
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(ref="#/components/schemas/UpdateResourceRequest")
+     *          ),
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(ref="#/components/schemas/UpdateResourceRequest")
+     *          )
+     *      ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/SlideResource")
+     *      ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function update(UpdateSlideRequest $request, Slide $slide)
     {
@@ -49,7 +158,6 @@ class SlideController extends Controller
         if (!empty($data['button'])) {
             $data['extra_data']['button'] = $data['button'];
         }
-
         $slide->update($data);
 
         if ($request->has('image')) {
@@ -62,10 +170,41 @@ class SlideController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/slides/{id}",
+     *      tags={"Slides"},
+     *      summary="Delete Slide record",
+     *      description="Returns delete status",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Slide id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function destroy(Slide $slide)
     {
-        return $slide->delete();
+        return (bool)$slide->delete();
     }
 }

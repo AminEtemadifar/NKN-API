@@ -29,12 +29,14 @@ class FileResource extends JsonResource
      *     ),
      *     @OA\Property(
      *         property="preview_url",
-     *         type="url",
+     *         type="string",
+     *         format="uri",
      *         description="preview url of the File"
      *     ),
      *     @OA\Property(
      *         property="original_url",
-     *         type="url",
+     *         type="string",
+     *         format="uri",
      *         description="original url of the File"
      *      ),
      *     @OA\Property(
