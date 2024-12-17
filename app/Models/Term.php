@@ -14,5 +14,6 @@ class Term extends Model
         'is_main',
         'is_filter',
         'is_footer',
+        'taxonomy_id',
     ];
 }
