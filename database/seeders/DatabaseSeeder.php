@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         (new SliderSeeder)->run();
         (new SlideSeeder())->run();
         (new TaxonomySeeder())->run();
+        (new TermSeeder())->run();
     }
 }
