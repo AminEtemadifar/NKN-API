@@ -14,7 +14,6 @@ class UpdateSliderRequest extends FormRequest
      *      schema="UpdateSliderResourceRequest",
      *      description="Update Slider request body data",
      *      type="object",
-     *      required={"name"}
      * )
      */
     public function authorize(): bool
