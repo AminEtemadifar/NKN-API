@@ -9,7 +9,7 @@ class StoreSlideRequest extends FormRequest
 {
     /**
      * @OA\Schema(
-     *     schema="StoreResourceRequest",
+     *     schema="StoreSlideResourceRequest",
      *     type="object",
      *     required={"image","slider_id", "ordering"},
      *     @OA\Property(
@@ -83,7 +83,7 @@ class StoreSlideRequest extends FormRequest
             'ordering' => 'required|integer|unique:slides,ordering,NULL,id,deleted_at,NULL',
             'link' => 'nullable|url',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'button.*' => 'required|array',
+            'button.*' => 'nullable|array',
             'button.title' => 'nullable|string',
             'button.link' => 'nullable|link',
         ];

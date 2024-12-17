@@ -9,7 +9,7 @@ class UpdateSlideRequest extends FormRequest
 {
     /**
      * @OA\Schema(
-     *     schema="UpdateResourceRequest",
+     *     schema="UpdateSlideResourceRequest",
      *     type="object",
      *     required={"image", "ordering"},
      *     @OA\Property(

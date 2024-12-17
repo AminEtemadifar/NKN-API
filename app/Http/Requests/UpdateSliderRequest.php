@@ -11,8 +11,7 @@ class UpdateSliderRequest extends FormRequest
 {
     /**
      * @OA\Schema(
-     *      schema="UpdateSliderRequest",
-     *      title="UpdateSliderRequest",
+     *      schema="UpdateSliderResourceRequest",
      *      description="Update Slider request body data",
      *      type="object",
      *      required={"name"}

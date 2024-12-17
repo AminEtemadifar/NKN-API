@@ -123,7 +123,7 @@ class SliderController extends Controller
      *        ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateSliderRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateSliderResourceRequest")
      *      ),
      *      @OA\Response(
      *          response=200,

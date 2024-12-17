@@ -22,7 +22,7 @@ class SlideController extends Controller
      *           required=true,
      *           @OA\MediaType(
      *               mediaType="multipart/form-data",
-     *               @OA\Schema(ref="#/components/schemas/StoreResourceRequest")
+     *               @OA\Schema(ref="#/components/schemas/StoreSlideResourceRequest")
      *           ),
      *     ),
      *     @OA\Response(
@@ -121,15 +121,15 @@ class SlideController extends Controller
      *          required=true,
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
-     *              @OA\Schema(ref="#/components/schemas/UpdateResourceRequest")
+     *              @OA\Schema(ref="#/components/schemas/UpdateSlideResourceRequest")
      *          ),
      *          @OA\MediaType(
      *              mediaType="application/x-www-form-urlencoded",
-     *              @OA\Schema(ref="#/components/schemas/UpdateResourceRequest")
+     *              @OA\Schema(ref="#/components/schemas/UpdateSlideResourceRequest")
      *          ),
      *          @OA\MediaType(
      *              mediaType="application/json",
-     *              @OA\Schema(ref="#/components/schemas/UpdateResourceRequest")
+     *              @OA\Schema(ref="#/components/schemas/UpdateSlideResourceRequest")
      *          )
      *      ),
      *     @OA\Response(
@@ -151,7 +151,7 @@ class SlideController extends Controller
      *      )
      * )
      */
-    public function update(UpdateSlreqideRequest $request, Slide $slide)
+    public function update(UpdateSlideRequest $request, Slide $slide)
     {
         $data = $request->validated();
         $data['extra_data'] = null;
