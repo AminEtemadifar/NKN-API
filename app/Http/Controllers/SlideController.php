@@ -151,7 +151,7 @@ class SlideController extends Controller
      *      )
      * )
      */
-    public function update(UpdateSlideRequest $request, Slide $slide)
+    public function update(UpdateSlreqideRequest $request, Slide $slide)
     {
         $data = $request->validated();
         $data['extra_data'] = null;

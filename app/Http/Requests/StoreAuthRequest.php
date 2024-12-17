@@ -8,7 +8,21 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreAuthRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * @OA\Schema(
+     *     schema="StoreAuthResourceRequest",
+     *     type="object",
+     *     required={"password","email"},
+     *     @OA\Property(
+     *         property="email",
+     *         type="string",
+     *         description="email of user"
+     *     ),
+     *     @OA\Property(
+     *         property="password",
+     *         type="string",
+     *         description="password of user"
+     *     ),
+     * )
      */
     public function authorize(): bool
     {
@@ -23,7 +37,7 @@ class StoreAuthRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required',
         ];
     }

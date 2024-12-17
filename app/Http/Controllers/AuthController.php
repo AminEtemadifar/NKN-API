@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAuthRequest;
 use App\Http\Requests\UpdateAuthRequest;
-use App\Http\Resources\AuthResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\UnauthorizedException;
@@ -14,15 +14,67 @@ class AuthController extends Controller
 {
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/auth",
+     *     summary="Retrieve a loggend in user",
+     *     description="Retrieve a loggend in user as user resource",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="user logged in retrieved successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *      )
+     * )
      */
     public function index()
     {
-        $me = Auth::user();
-        return AuthResource::make($me);
+        $me = Auth::guard('api')->user();
+        return UserResource::make($me);
     }
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/auth",
+     *      tags={"Auth"},
+     *      summary="login",
+     *      description="loggend in user as User resource and token",
+     *      @OA\RequestBody(
+     *           required=true,
+     *           @OA\MediaType(
+     *               mediaType="multipart/form-data",
+     *               @OA\Schema(ref="#/components/schemas/StoreAuthResourceRequest")
+     *           ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\Property(property="data",ref="#/components/schemas/UserResource"),
+     *         @OA\Property(
+     *            property="token",
+     *            type="string",
+     *            )
+     *      ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Resource Not Found"
+     *     )
+     * )
      */
     public function store(StoreAuthRequest $request)
     {
@@ -30,10 +82,8 @@ class AuthController extends Controller
         if (Auth::guard('web')->attempt($credentials)) {
             $user = Auth::guard('web')->user();
             $token = $user->createToken('WebApp')->accessToken;
-            //$refreshToken = $user->createToken('WebApp', ['refresh'])->accessToken;
-            return AuthResource::make($user)->additional([
+            return UserResource::make($user)->additional([
                 'token' => $token,
-                //'refresh_token' => $refreshToken,
             ]);
         } else {
             throw new UnauthorizedException();
@@ -78,7 +128,27 @@ class AuthController extends Controller
         ]);
     }
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete (
+     *     path="/auth",
+     *     summary="logout",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="user logout successfully",
+     *         @OA\Property(
+     *             type="bool",
+     *             )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *      )
+     * )
      */
     public function destroy()
     {
