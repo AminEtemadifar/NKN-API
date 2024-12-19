@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Enums\SliderKeyEnum;
-use App\Http\Resources\SliderResource;
-use App\Http\Resources\TermResource;
+use App\Http\Resources\HomeResource;
 use App\Models\Slider;
 use App\Models\Taxonomy;
-use App\Models\Term;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class HomeController extends Controller
 {
     /**
-     * @OA\Post(
+     * @OA\Get(
      *      path="/home",
      *      tags={"Home"},
      *      summary="home",
@@ -22,21 +21,9 @@ class HomeController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\Property(property="data",ref="#/components/schemas/SliderResource"),
-     *         @OA\Property(property="data",ref="#/components/schemas/TermResource")
+     *         @OA\Property(property="data",ref="#/components/schemas/HomeResource")
      *      ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthenticated",
-     *     ),
-     *     @OA\Response(
-     *         response=403,
-     *         description="Forbidden"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Resource Not Found"
-     *     )
+     *
      * )
      */
     public function index()
@@ -49,8 +36,13 @@ class HomeController extends Controller
 
         $taxonomy = Taxonomy::query()->where('key', '=', 'expertise')->first();
         $terms = !empty($taxonomy) ? $taxonomy->terms()->where('is_main', true)->get() : [];
+        $data = (object) [
+            'sliders' => $sliders,
+            'main_terms' => $terms,
+            'footer_terms' => $terms,
+        ];
 
-        return ResourceCollection::collection(['slides' => SliderResource::collection($sliders), 'terms' => TermResource::collection($terms)]);
+        return HomeResource::make($data);
     }
 
     /**

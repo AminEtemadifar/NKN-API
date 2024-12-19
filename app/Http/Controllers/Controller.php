@@ -23,6 +23,10 @@ namespace App\Http\Controllers;
  * @OA\Server(
  *      url="http://127.0.0.1:8000/api",
  *      description="localhost"
+ * ),
+ * @OA\Server(
+ *      url="https://api.mifadev.ir/api",
+ *      description="staging"
  * )
  *
  */

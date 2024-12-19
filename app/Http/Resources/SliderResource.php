@@ -41,12 +41,13 @@ class SliderResource extends JsonResource
      *         property="thumbnails",
      *         type="array",
      *         description="URL of the slider image",
-     *         @OA\Items(ref="#/components/schemas/SliderResource")
+     *         @OA\Items(ref="#/components/schemas/FileResource")
      *     ),
      *     @OA\Property(
      *         property="slides",
-     *         type="object",
-     *         description="List of slides of slider"
+     *         type="array",
+     *         description="List of slides of slider",
+     *         @OA\Items(ref="#/components/schemas/SlideResource")
      *     )
      * )
      */
