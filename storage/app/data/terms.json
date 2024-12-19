@@ -1,11 +1,11 @@
 [
     {
-        "taxonomy_key": "services",
+        "taxonomy_key": "expertise",
         "title": "طب اورژانس",
         "slug": "طب_اورژانس"
     },
     {
-        "taxonomy_key": "services",
+        "taxonomy_key": "expertise",
         "title": "کلینیک خواب",
         "slug": "کلینیک_خواب"
     },
