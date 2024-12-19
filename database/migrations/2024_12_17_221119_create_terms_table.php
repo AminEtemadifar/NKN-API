@@ -19,7 +19,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
 
             $table->string('title');
-            $table->string('slug')->index();
+            $table->string('slug')->nullable()->index();
             $table->tinyInteger('is_main')->default(0)->index();
             $table->tinyInteger('is_filter')->default(1)->index();
             $table->tinyInteger('is_footer')->default(0)->index();

@@ -1,0 +1,22 @@
+[
+    {
+        "name": "مدیر کل",
+        "key": "full_admin",
+        "editable": false
+    },
+    {
+        "name": "مدیر",
+        "key": "admin",
+        "editable": false
+    },
+    {
+        "name": "ویرایش گر",
+        "key": "editor",
+        "editable": false
+    },
+    {
+        "name": "پزشک",
+        "key": "doc",
+        "editable": false
+    }
+]

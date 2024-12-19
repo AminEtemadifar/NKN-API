@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Taxonomy;
-use App\Models\Term;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TermSeeder extends Seeder
@@ -16,7 +14,7 @@ class TermSeeder extends Seeder
     {
         $terms = json_decode(file_get_contents(storage_path('app/data/terms.json')), true);
         foreach ($terms as $term) {
-            $taxonomy = Taxonomy::where('key' , $term['taxonomy_key'])->first();
+            $taxonomy = Taxonomy::where('key', $term['taxonomy_key'])->first();
             unset($term['taxonomy_key']);
             $taxonomy->terms()->create($term);
         }
