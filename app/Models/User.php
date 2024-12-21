@@ -47,7 +47,6 @@ class User extends Authenticatable
         ];
     }
 
-
     // Check if user has a specific role
     public function hasRole($role)
     {
@@ -91,4 +90,5 @@ class User extends Authenticatable
             throw new \Exception("Role '{$role}' not found.");
         }
     }
+
 }
