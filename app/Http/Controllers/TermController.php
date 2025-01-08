@@ -18,10 +18,17 @@ class TermController extends Controller
      *     tags={"Terms"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
-     *         response=200,
-     *         description="categories items in retrieved successfully",
-     *         @OA\JsonContent(ref="#/components/schemas/TermResource")
-     *     ),
+     *          response=200,
+     *          description="Categories items retrieved successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(ref="#/components/schemas/TermResource")
+     *              )
+     *          )
+     *      ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
