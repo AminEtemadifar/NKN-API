@@ -24,6 +24,11 @@ return new class extends Migration {
                 ->comment('male: ' . GenderEnum::MALE->value . '; female: ' . GenderEnum::FEMALE->value)
                 ->index();
             $table->tinyInteger('status')->default(1)->index();
+
+            $table->unsignedInteger('hospital_id')->index();
+            $table->foreign('hospital_id')->references('id')->on('hospitals')
+                ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

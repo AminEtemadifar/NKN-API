@@ -24,6 +24,7 @@ class Doctor extends Model implements HasMedia
         'redirect',
         'description',
         'gender',
+        'hospital_id',
         'status'
     ];
 

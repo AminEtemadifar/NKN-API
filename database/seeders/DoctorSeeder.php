@@ -28,6 +28,7 @@ class DoctorSeeder extends Seeder
                 'redirect' => $doctorItem['redirect'],
                 'description' => $doctorItem['description'],
                 'gender' => $doctorItem['gender'],
+                'hospital_id' => $doctorItem['hospital_id'],
             ]);
             //$doctorItem['user_id'] = User::whereRole()->first();
             // TODO control user id for doctors

@@ -41,11 +41,20 @@ class DoctorController extends Controller
      *      ),
      *      @OA\Parameter(
      *          name="filter[terms]",
-     *          description="get id of terms and explode by , example:26,25",
+     *          description="filter doctrs by terms and explode by , example:26,25",
      *          in="query",
      *          required=false,
      *          @OA\Schema(
      *              type="string",
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="filter[hospital]",
+     *          description="filter doctrs by hospital_id",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="integer",
      *          ),
      *      ),
      *      @OA\Response(
@@ -68,6 +77,7 @@ class DoctorController extends Controller
                     fn(Builder $query, string $value) => $value == 'female' ? $query->where('gender', GenderEnum::FEMALE->value) :
                         ($value == 'male' ? $query->where('gender', GenderEnum::MALE->value) : null)),
                 AllowedFilter::partial('terms', 'terms.id'),
+                AllowedFilter::exact('hospital', 'hospital_id'),
                 AllowedFilter::callback('search', function (Builder $query, $value) {
                     $query->where('first_name', 'like', '%' . $value . '%');
                     $query->orWhere('last_name', 'like', '%' . $value . '%');
