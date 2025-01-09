@@ -6,7 +6,9 @@ use App\Http\Enums\GenderEnum;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Resources\DoctorResource;
+use App\Http\Resources\TaxonomyResource;
 use App\Models\Doctor;
+use App\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -49,7 +51,10 @@ class DoctorController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\Property(property="data", ref="#/components/schemas/DoctorResource")
+     *          @OA\Property(property="data", ref="#/components/schemas/DoctorResource"),
+     *          @OA\Property(property="taxonomies", ref="#/components/schemas/TaxonomyResource"),
+     *          @OA\Property(property="links", ref="#/components/schemas/LinksPaginationResource"),
+     *          @OA\Property(property="meta", ref="#/components/schemas/MetaPaginationResource"),
      *      ),
      * )
      */
@@ -70,8 +75,16 @@ class DoctorController extends Controller
                     $query->orWhere('sub_title', 'like', '%' . $value . '%');
                     $query->orWhere('short_description', 'like', '%' . $value . '%');
                 }),
-            ])->get();
-        return DoctorResource::collection($doctors);
+            ])->paginate(request()->per_page);
+
+        $taxonomies = Taxonomy::with([
+            'terms' => fn($terms) => $terms->filterable()
+        ])->get();
+
+        return DoctorResource::collection($doctors)
+            ->additional([
+                'taxonomies' => TaxonomyResource::collection($taxonomies)
+            ]);
     }
 
     /**

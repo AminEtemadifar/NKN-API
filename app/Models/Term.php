@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Term extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'title',
         'slug',
@@ -16,4 +17,9 @@ class Term extends Model
         'is_footer',
         'taxonomy_id',
     ];
+
+    public function scopeFilterable()
+    {
+        return $this->where('is_filter', true);
+    }
 }
