@@ -171,7 +171,38 @@ class HospitalController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/hospitals/{id}",
+     *      tags={"Hospitals"},
+     *      summary="Delete hospital record",
+     *      description="Returns delete status",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="hospital id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *       @OA\Response(
+     *           response=404,
+     *           description="Resource Not Found"
+     *       )
+     * )
      */
     public function destroy(Hospital $hospital)
     {
