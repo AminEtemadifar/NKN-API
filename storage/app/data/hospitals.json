@@ -1,0 +1,42 @@
+[
+    {
+        "name": "نیکان اقدسیه",
+        "address": "اقدسیه – ابتدای بلوار ارتش – ورودی اراج – خیابان ٢٢ بهمن – شماره ٦",
+        "address_link": "https://nshn.ir/78_bv1i2Qxpkpz",
+        "fax": "021-29120000",
+        "email": "mifagroup2021@gmail.com",
+        "image" : "Images/Hospital/01/03.png",
+        "main_thumbnail" : "Images/Hospital/01/02.png",
+        "thumbnail" : "Images/Hospital/01/01.png"
+    },
+    {
+        "name": "نیکان اقدسیه",
+        "address": "اقدسیه – ابتدای بلوار ارتش – ورودی اراج – خیابان ٢٢ بهمن – شماره ٦",
+        "address_link": "https://nshn.ir/78_bv1i2Qxpkpz",
+        "fax": "021-29120000",
+        "email": "mifagroup2021@gmail.com",
+        "image" : "Images/Hospital/02/03.png",
+        "main_thumbnail" : "Images/Hospital/02/02.png",
+        "thumbnail" : "Images/Hospital/02/01.png"
+    },
+    {
+        "name": "نیکان اقدسیه",
+        "address": "اقدسیه – ابتدای بلوار ارتش – ورودی اراج – خیابان ٢٢ بهمن – شماره ٦",
+        "address_link": "https://nshn.ir/78_bv1i2Qxpkpz",
+        "fax": "021-29120000",
+        "email": "mifagroup2021@gmail.com",
+        "image" : "Images/Hospital/03/03.png",
+        "main_thumbnail" : "Images/Hospital/03/02.png",
+        "thumbnail" : "Images/Hospital/03/01.png"
+    },
+    {
+        "name": "نیکان اقدسیه",
+        "address": "اقدسیه – ابتدای بلوار ارتش – ورودی اراج – خیابان ٢٢ بهمن – شماره ٦",
+        "address_link": "https://nshn.ir/78_bv1i2Qxpkpz",
+        "fax": "021-29120000",
+        "email": "mifagroup2021@gmail.com",
+        "image" : "Images/Hospital/04/03.png",
+        "main_thumbnail" : "Images/Hospital/04/02.png",
+        "thumbnail" : "Images/Hospital/04/01.png"
+    }
+]

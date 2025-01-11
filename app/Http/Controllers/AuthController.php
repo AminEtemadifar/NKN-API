@@ -66,14 +66,6 @@ class AuthController extends Controller
      *         response=401,
      *         description="Unauthenticated",
      *     ),
-     *     @OA\Response(
-     *         response=403,
-     *         description="Forbidden"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Resource Not Found"
-     *     )
      * )
      */
     public function store(StoreAuthRequest $request)

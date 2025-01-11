@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TermController;
@@ -22,5 +23,6 @@ Route::group([
     Route::apiResource('sliders', SliderController::class)->except(['store' , 'destroy']);
     Route::apiResource('slides', SlideController::class)->except(['index']);
     Route::apiResource('terms', TermController::class);
+    Route::apiResource('hospitals', HospitalController::class);
 });
 
