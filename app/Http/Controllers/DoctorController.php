@@ -6,8 +6,10 @@ use App\Http\Enums\GenderEnum;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Resources\DoctorResource;
+use App\Http\Resources\RecordNameResource;
 use App\Http\Resources\TaxonomyResource;
 use App\Models\Doctor;
+use App\Models\Hospital;
 use App\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -91,9 +93,12 @@ class DoctorController extends Controller
             'terms' => fn($terms) => $terms->filterable()
         ])->get();
 
+        $hospitals = Hospital::query()->select('id', 'name')->get();
+
         return DoctorResource::collection($doctors)
             ->additional([
-                'taxonomies' => TaxonomyResource::collection($taxonomies)
+                'taxonomies' => TaxonomyResource::collection($taxonomies),
+                'hospitals' => RecordNameResource::collection($hospitals),
             ]);
     }
 

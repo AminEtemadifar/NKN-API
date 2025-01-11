@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Enums\SliderKeyEnum;
 use App\Http\Resources\HomeResource;
+use App\Models\Hospital;
 use App\Models\Slider;
 use App\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Model;
@@ -36,10 +37,12 @@ class HomeController extends Controller
 
         $taxonomy = Taxonomy::query()->where('key', '=', 'expertise')->first();
         $terms = !empty($taxonomy) ? $taxonomy->terms()->where('is_main', true)->get() : [];
+        $hospitals = Hospital::query()->get();
         $data = (object) [
             'sliders' => $sliders,
             'main_terms' => $terms,
             'footer_terms' => $terms,
+            'hospitals' => $hospitals,
         ];
 
         return HomeResource::make($data);

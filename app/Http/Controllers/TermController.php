@@ -6,7 +6,9 @@ use App\Http\Requests\StoreTermRequest;
 use App\Http\Requests\UpdateTermRequest;
 use App\Http\Resources\TermResource;
 use App\Models\Term;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TermController extends Controller
 {
@@ -17,6 +19,15 @@ class TermController extends Controller
      *     description="Retrieve categories items as terms resource",
      *     tags={"Terms"},
      *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *           name="filter[search]",
+     *           description="search in data of terms",
+     *           in="query",
+     *           required=false,
+     *           @OA\Schema(
+     *               type="string",
+     *           ),
+     *      ),
      *     @OA\Response(
      *          response=200,
      *          description="Categories items retrieved successfully",
@@ -42,7 +53,12 @@ class TermController extends Controller
     public function index()
     {
         //TODO filter by taxonomy_key
-        $terms = Term::all();
+        $terms = QueryBuilder::for(Term::class)
+            ->allowedFilters(
+                AllowedFilter::callback('search', function (Builder $query, $value) {
+                    $query->where('title', 'like', '%' . $value . '%');
+                }),
+            );
         return TermResource::collection($terms);
 
     }
@@ -90,7 +106,6 @@ class TermController extends Controller
      *     description="Retrieve category item as terms resource",
      *     tags={"Terms"},
      *     security={{"bearerAuth":{}}},
-
      *     @OA\Response(
      *         response=200,
      *         description="categories item in store successfully",
