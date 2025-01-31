@@ -52,7 +52,7 @@ class HospitalController extends Controller
      *           ),
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=201,
      *         description="Successful operation",
      *         @OA\JsonContent(ref="#/components/schemas/HospitalResource")
      *      ),
@@ -70,6 +70,21 @@ class HospitalController extends Controller
     {
         $data = $request->validated();
         $hospital = Hospital::query()->create($data);
+        if ($request->has('main_thumbnail')) {
+            $hospital->clearMediaCollection('main_thumbnail');
+            $hospital->addMediaFromRequest('main_thumbnail')
+                ->toMediaCollection('main_thumbnail');
+        }
+        if ($request->has('image')) {
+            $hospital->clearMediaCollection('image');
+            $hospital->addMediaFromRequest('image')
+                ->toMediaCollection('image');
+        }
+        if ($request->has('thumbnail')) {
+            $hospital->clearMediaCollection('thumbnail');
+            $hospital->addMediaFromRequest('thumbnail')
+                ->toMediaCollection('thumbnail');
+        }
         return HospitalResource::make($hospital);
     }
 

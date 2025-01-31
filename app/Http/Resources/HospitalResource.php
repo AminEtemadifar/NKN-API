@@ -30,6 +30,10 @@ class HospitalResource extends JsonResource
      *         type="string",
      *     ),
      *     @OA\Property(
+     *         property="address_link",
+     *         type="string",
+     *     ),
+     *     @OA\Property(
      *         property="email",
      *         type="string",
      *         format="uri",
@@ -61,6 +65,7 @@ class HospitalResource extends JsonResource
             'name' => $this->name,
             'address' => $this->address,
             'fax' => $this->fax,
+            'address_link' => $this->address_link,
             'email' => $this->email,
             'thumbnail' => FileResource::make($this->getFirstMedia('thumbnail')),
             'main_thumbnail' => FileResource::make($this->getFirstMedia('main_thumbnail')),
