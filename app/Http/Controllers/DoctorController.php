@@ -103,30 +103,55 @@ class DoctorController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *      path="/doctors/{id}",
+     * @OA\Post(
+     *      path="/doctors",
      *      tags={"doctors"},
-     *      summary="Get doctor information",
-     *      description="Returns doctor data",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="doctor id",
+     *      summary="Create a new doctor",
+     *      description="Store a new doctor in the database",
+     *      @OA\RequestBody(
      *          required=true,
-     *          in="path",
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
+     *          @OA\JsonContent(ref="#/components/schemas/StoreDoctorRequest")
      *      ),
      *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
+     *          response=201,
+     *          description="Doctor created successfully",
      *          @OA\JsonContent(ref="#/components/schemas/DoctorResource")
-     *       )
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error"
+     *      )
      * )
      */
     public function store(StoreDoctorRequest $request)
     {
-        //
+        $data = $request->validated();
+        $doctor = Doctor::query()->create($data);
+
+        if ($request->has('main_image')) {
+            $doctor->clearMediaCollection('image');
+            $doctor->addMediaFromRequest('main_image')
+                ->toMediaCollection('image');
+
+        }
+
+        if ($request->has('portfolio')) {
+            $doctor->clearMediaCollection('portfolio');
+            foreach ($request->file('portfolio') as $item) {
+                if ($item) {
+                    $doctor->addMedia($item)
+                        ->toMediaCollection('portfolio');
+                }
+            }
+        }
+        if ($request->has('terms')) {
+            $doctor->terms()->sync($data['terms']);
+        }
+        return new DoctorResource($doctor);
     }
 
     /**

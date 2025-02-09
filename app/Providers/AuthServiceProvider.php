@@ -26,12 +26,6 @@ class AuthServiceProvider extends ServiceProvider
         Passport::enablePasswordGrant();
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
-        // Define gates for roles
-        $roles = Role::all();
-        foreach ($roles as $role) {
-            Gate::define($role->key, function (User $user) use ($role) {
-                return $user->hasRole($role->key);
-            });
-        }
+
     }
 }

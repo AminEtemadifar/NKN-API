@@ -16,6 +16,8 @@ Route::apiResource('auth', AuthController::class)->only(['store']);
 Route::apiResource('home', HomeController::class)->only(['index']);
 Route::apiResource('doctors', DoctorController::class)->only(['index' , 'show']);
 Route::apiResource('hospitals', HospitalController::class)->only('index');
+Route::apiResource('doctors', DoctorController::class)->only(['store']);
+
 Route::group([
     'as' => 'api.',
     //'middleware' => ['auth:api']
