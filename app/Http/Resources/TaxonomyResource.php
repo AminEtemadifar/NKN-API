@@ -13,10 +13,15 @@ class TaxonomyResource extends JsonResource
      *     title="TaxonomyResource",
      *     type="object",
      *     description="Taxonomy resource",
-     *     required={"title","key"},
+     *     required={"title","key","id"},
      *     @OA\Xml(
      *          name="TaxonomyResource"
      *      ),
+     *     @OA\Property(
+     *         property="id",
+     *         type="integer",
+     *         description="id of Taxonomy"
+     *     ),
      *     @OA\Property(
      *         property="title",
      *         type="string",
@@ -38,6 +43,7 @@ class TaxonomyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'key' => $this->key,
             'terms' => $this->whenLoaded('terms', function () {

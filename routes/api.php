@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\TermController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,7 @@ Route::group([
     Route::apiResource('slides', SlideController::class)->except(['index']);
     Route::apiResource('terms', TermController::class);
     Route::apiResource('hospitals', HospitalController::class)->except('index');
+    Route::apiResource('taxonomies', TaxonomyController::class)->only('index');
+
 });
 

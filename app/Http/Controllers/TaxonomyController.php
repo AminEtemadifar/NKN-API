@@ -28,7 +28,7 @@ class TaxonomyController extends Controller
      * )
      */    public function index()
     {
-        return TaxonomyResource::collection(Taxonomy::all());
+        return TaxonomyResource::collection(Taxonomy::with('terms')->get());
 
     }
 
