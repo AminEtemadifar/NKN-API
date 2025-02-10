@@ -18,7 +18,7 @@ return new class extends Migration {
 
             $table->string('title');
             $table->string('sub_title')->nullable();
-            $table->string('description');
+            $table->mediumText('description');
             $table->string('duration')->nullable();
             $table->softDeletes();
             $table->timestamps();

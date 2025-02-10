@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Enums\GenderEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -69,4 +70,18 @@ class Doctor extends Model implements HasMedia
     {
         return $this->belongsToMany(Term::class);
     }
+
+    /**
+     * Get the blogs associated with the doctor.
+     *
+     * This function defines a one-to-many relationship between the Doctor model
+     * and the Blog model, indicating that a doctor can have multiple blogs.
+     *
+     * @return HasMany The relationship instance representing the blogs associated with the doctor.
+     */
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class);
+    }
+
 }

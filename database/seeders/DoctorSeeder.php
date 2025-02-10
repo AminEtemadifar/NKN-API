@@ -53,6 +53,12 @@ class DoctorSeeder extends Seeder
                         ->toMediaCollection('portfolio');
                 }
             }
+            $blogs = json_decode(file_get_contents(storage_path('app/data/blogs.json')), true);
+            for ($i = 0; $i < 4; $i++) {
+                $randomBlogKey = array_rand($blogs);
+                $randomBlog = $blogs[$randomBlogKey];
+                $doctor->blogs()->create($randomBlog);
+            }
 
         }
     }
