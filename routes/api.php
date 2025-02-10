@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HospitalController;
@@ -17,6 +18,7 @@ Route::apiResource('home', HomeController::class)->only(['index']);
 Route::apiResource('doctors', DoctorController::class)->only(['index' , 'show']);
 Route::apiResource('hospitals', HospitalController::class)->only('index');
 Route::apiResource('doctors', DoctorController::class)->only(['store']);
+Route::apiResource('blogs', BlogController::class)->only(['show','index']);
 
 Route::group([
     'as' => 'api.',
@@ -29,6 +31,7 @@ Route::group([
     Route::apiResource('terms', TermController::class);
     Route::apiResource('hospitals', HospitalController::class)->except('index');
     Route::apiResource('taxonomies', TaxonomyController::class)->only('index');
+    Route::apiResource('blogs', BlogController::class)->except(['show','index']);
 
 });
 

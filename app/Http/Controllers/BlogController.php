@@ -31,7 +31,7 @@ class BlogController extends Controller
      *         description="Successful response",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="data", ref="#/components/schemas/DoctorResource"),
+     *             @OA\Property(property="data", ref="#/components/schemas/BlogResource"),
      *             @OA\Property(property="links", ref="#/components/schemas/LinksPaginationResource"),
      *             @OA\Property(property="meta", ref="#/components/schemas/MetaPaginationResource"),
      *         )
