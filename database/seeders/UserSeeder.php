@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Http\Enums\RoleEnum;
+use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,7 +23,7 @@ class UserSeeder extends Seeder
             'email' => "admin@admin.com",
             'password' => Hash::make('mifadev'),
         ]);
-
         $user->assignRole(RoleEnum::FULL_ADMIN);
+
     }
 }

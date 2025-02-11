@@ -3,14 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use League\OAuth2\Server\Entities\Traits\RefreshTokenTrait;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens;
+
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -47,48 +51,18 @@ class User extends Authenticatable
         ];
     }
 
-    // Check if user has a specific role
-    public function hasRole($role)
-    {
-        return $this->roles->contains('key', $role);
-    }
-
-    // Many-to-many relationship with Role
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
     /**
-     * Assign a role to the user.
+     * Get the blogs associated with the doctor.
+     *
+     * This function defines a one-to-many relationship between the Doctor model
+     * and the Blog model, indicating that a doctor can have multiple blogs.
+     *
+     * @return HasMany The relationship instance representing the blogs associated with the doctor.
      */
-    public function assignRole($role)
+    public function blogs(): HasMany
     {
-        // Find the role by name, or fail if not found
-        $roleInstance = Role::where('key', $role)->first();
-
-        if ($roleInstance) {
-            // Attach the role to the user
-            $this->roles()->attach($roleInstance);
-        } else {
-            throw new \Exception("Role '{$role}' not found.");
-        }
+        return $this->hasMany(Blog::class);
     }
 
-    /**
-     * Remove a role from the user.
-     */
-    public function removeRole($role)
-    {
-        // Find the role by name, or fail if not found
-        $roleInstance = Role::where('name', $role)->first();
-
-        if ($roleInstance) {
-            // Detach the role from the user
-            $this->roles()->detach($roleInstance);
-        } else {
-            throw new \Exception("Role '{$role}' not found.");
-        }
-    }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBlogRequest extends FormRequest
@@ -36,6 +37,12 @@ class UpdateBlogRequest extends FormRequest
      *         nullable=true
      *     ),
      *     @OA\Property(
+     *         property="publish",
+     *         type="boolean",
+     *         description="publish status of the blog default is false",
+     *         nullable=true
+     *     ),
+     *     @OA\Property(
      *         property="main_image",
      *         type="string",
      *         format="binary",
@@ -52,7 +59,7 @@ class UpdateBlogRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -61,7 +68,8 @@ class UpdateBlogRequest extends FormRequest
             'sub_title'=> 'nullable|string',
             'description' => 'required|string',
             'duration' => 'nullable|integer',
-            'main_image' => 'nullable|image|mimes:jpeg,png,jpg`',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg',
+            'publish' => 'nullable|boolean',
         ];
     }
 }

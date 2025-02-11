@@ -35,6 +35,12 @@ class BlogResource extends JsonResource
      *         description="The creation date of the blog"
      *     ),
      *     @OA\Property(
+     *         property="published_at",
+     *         type="string",
+     *         format="date-time",
+     *         description="The publish date of the blog"
+     *     ),
+     *     @OA\Property(
      *         property="description",
      *         type="string",
      *         description="The description of the blog"
@@ -60,7 +66,10 @@ class BlogResource extends JsonResource
             'sub_title' => $this->sub_title,
             'duration' => $this->duration,
             'created_at' => $this->created_at,
-            'description' => $this->description,
+            'published_at' => $this->published_at,
+            'description' => $this->whenLoaded('description', function () {
+                return $this->description;
+            }),
             'main_image' => FileResource::collection($this->getMedia('main_image')),
             'user' => $this->whenLoaded('user', function () {
                 return new UserResource($this->user);

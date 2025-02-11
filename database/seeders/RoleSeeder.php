@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Http\Enums\RoleEnum;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -12,9 +13,9 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = json_decode(file_get_contents(storage_path('app/data/roles.json')), true);
+        $roles = RoleEnum::array();
         foreach ($roles as $role) {
-            Role::create($role);
+            Role::create(['name' => $role]);
         }
     }
 }

@@ -29,6 +29,11 @@ return new class extends Migration {
             $table->foreign('hospital_id')->references('id')->on('hospitals')
                 ->onUpdate('cascade');
 
+            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->nullOnDelete()
+                ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

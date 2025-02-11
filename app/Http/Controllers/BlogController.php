@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Enums\RoleEnum;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class BlogController extends Controller
 {
@@ -17,16 +21,36 @@ class BlogController extends Controller
      *     description="Retrieve a paginated list of blog resources.",
      *     operationId="getBlogs",
      *     tags={"Blogs"},
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Page number for pagination",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
-     *     ),
+     *    @OA\Parameter(
+     *          name="page",
+     *          in="query",
+     *          description="Page number for pagination",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="integer",
+     *              example=1
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="filter[search]",
+     *          in="query",
+     *          description="Search term to filter blogs by title or sub_title",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="example"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="sort",
+     *          in="query",
+     *          description="Sort blogs by title : 'title', 'duration', 'sub_title', 'created_at', 'published_at'",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="title"
+     *          )
+     *      ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
@@ -41,7 +65,20 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return BlogResource::collection(Blog::query()->paginate());
+        $blogs = QueryBuilder::for(Blog::class)
+            ->allowedFilters([
+                AllowedFilter::callback('search', function (Builder $query, $value) {
+                    $query->where('title', 'like', '%' . $value . '%');
+                    $query->orWhere('sub_title', 'like', '%' . $value . '%');
+                }),
+            ])->allowedSorts('title', 'duration', 'sub_title', 'created_at', 'published_at')->paginate(request()->per_page);
+
+        if (request()->has('with_slider') && request()->input('with_slider')) {
+            return BlogResource::collection($blogs)->additional([
+                'slider' => BlogResource::collection(Blog::limit(5)->orderBy('created_at')->get()),
+            ]);
+        }
+        return BlogResource::collection($blogs);
     }
 
     /**

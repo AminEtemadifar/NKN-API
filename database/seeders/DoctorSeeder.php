@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Http\Enums\RoleEnum;
 use App\Models\Blog;
 use App\Models\Doctor;
 use App\Models\Taxonomy;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorSeeder extends Seeder
 {
@@ -31,8 +34,7 @@ class DoctorSeeder extends Seeder
                 'gender' => $doctorItem['gender'],
                 'hospital_id' => $doctorItem['hospital_id'],
             ]);
-            //$doctorItem['user_id'] = User::whereRole()->first();
-            // TODO control user id for doctors
+
             foreach ($terms as $term) {
                 $taxonomy = Taxonomy::query()->where('key', $term['taxonomy_key'])->first();
                 unset($term['taxonomy_key']);
@@ -54,19 +56,31 @@ class DoctorSeeder extends Seeder
                         ->toMediaCollection('portfolio');
                 }
             }
+
+
+            $user = User::query()->create([
+                'firstname' => $doctorItem['first_name'],
+                'lastname' => $doctorItem['last_name'],
+                'phone' => '091000000' . rand(0, 99),
+                'email' => "admin" . rand(0, 500) . "@admin.com",
+                'password' => Hash::make('mifadev'),
+            ]);
+            $user->assignRole(RoleEnum::DOC);
+            $doctor->user_id = $user->id;
+            $doctor->save();
+
             $blogs = json_decode(file_get_contents(storage_path('app/data/blogs.json')), true);
             for ($i = 0; $i < 4; $i++) {
                 $randomBlogKey = array_rand($blogs);
                 $randomBlog = $blogs[$randomBlogKey];
                 $randomBlogImage = $randomBlog['image'];
                 unset($randomBlog['image']);
-                $blog = $doctor->blogs()->create($randomBlog);
+                $blog = $user->blogs()->create($randomBlog);
                 /** @var Blog $blog */
                 $blog->addMediaFromUrl($randomBlogImage)
                     ->preservingOriginal()
                     ->toMediaCollection('main_image');
             }
-
         }
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Http\Enums\GenderEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -17,8 +19,19 @@ class Blog extends Model implements HasMedia
         'sub_title',
         'description',
         'duration',
+        'published_at',
     ];
+    protected $hidden = ['description'];
 
+    // Mutator
+    public function setPublishAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['published_at'] = Carbon::now()->toDateTime();
+        } else {
+            $this->attributes['published_at'] = null;
+        }
+    }
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('main_image');

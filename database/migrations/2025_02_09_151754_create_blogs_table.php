@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement()->primary();
-            $table->unsignedInteger('user_id')->index();
+            $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade');
 
@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->mediumText('description');
             $table->string('duration')->nullable();
             $table->softDeletes();
+            $table->timestamp('published_at')->nullable()->index();
             $table->timestamps();
         });
     }
