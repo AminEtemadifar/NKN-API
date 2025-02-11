@@ -7,7 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BlogResource extends JsonResource
 {
-    /** @OA\Schema(
+    /**
+     * @OA\Schema(
      *     schema="BlogResource",
      *     type="object",
      *     title="Blog Resource",
@@ -39,6 +40,12 @@ class BlogResource extends JsonResource
      *         description="The description of the blog"
      *     ),
      *     @OA\Property(
+     *         property="main_image",
+     *         type="array",
+     *         description="The main image of the blog",
+     *         @OA\Items(ref="#/components/schemas/FileResource")
+     *     ),
+     *     @OA\Property(
      *         property="doctor",
      *         type="object",
      *         description="The doctor associated with the blog",
@@ -54,6 +61,7 @@ class BlogResource extends JsonResource
             'duration' => $this->duration,
             'created_at' => $this->created_at,
             'description' => $this->description,
+            'main_image' => FileResource::collection($this->getMedia('main_image')),
             'doctor' => $this->whenLoaded('doctor', function () {
                 return new DoctorResource($this->doctor);
             })

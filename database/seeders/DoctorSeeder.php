@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Blog;
 use App\Models\Doctor;
 use App\Models\Taxonomy;
 use Illuminate\Database\Seeder;
@@ -57,7 +58,13 @@ class DoctorSeeder extends Seeder
             for ($i = 0; $i < 4; $i++) {
                 $randomBlogKey = array_rand($blogs);
                 $randomBlog = $blogs[$randomBlogKey];
-                $doctor->blogs()->create($randomBlog);
+                $randomBlogImage = $randomBlog['image'];
+                unset($randomBlog['image']);
+                $blog = $doctor->blogs()->create($randomBlog);
+                /** @var Blog $blog */
+                $blog->addMediaFromUrl($randomBlogImage)
+                    ->preservingOriginal()
+                    ->toMediaCollection('main_image');
             }
 
         }
