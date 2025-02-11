@@ -86,26 +86,144 @@ class BlogController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/blogs/{id}",
+     *     summary="Get a specific blog",
+     *     description="Retrieve a specific blog resource by its ID.",
+     *     operationId="getBlogById",
+     *     tags={"Blogs"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the blog to retrieve",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(ref="#/components/schemas/BlogResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Blog not found"
+     *     )
+     * )
      */
     public function show(Blog $blog)
     {
-        //
+        return BlogResource::make($blog);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/blogs/{id}",
+     *     tags={"Blogs"},
+     *     summary="Update an existing blog",
+     *     description="Update the details of an existing blog resource.",
+     *     operationId="updateBlog",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the blog to update",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UpdateBlogRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Blog updated successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/BlogResource")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Blog not found"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     )
+     * )
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        //
+        /** @var Blog $blog */
+
+        $data = $request->validated();
+        $blog = $blog->update($data);
+
+        if ($request->has('main_image')) {
+            $blog->clearMediaCollection('image');
+            $blog->addMediaFromRequest('main_image')
+                ->toMediaCollection('image');
+
+        }
+
+        return BlogResource::make($blog);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/blogs/{id}",
+     *     tags={"Blogs"},
+     *     summary="Delete a specific blog",
+     *     description="Remove a specific blog resource by its ID.",
+     *     operationId="deleteBlog",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the blog to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Blog deleted successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=true
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Blog not found"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     )
+     * )
      */
     public function destroy(Blog $blog)
     {
-        //
+        return $blog->delete();
     }
 }
