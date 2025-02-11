@@ -12,7 +12,7 @@ class Blog extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
-        'doctor_id',
+        'user_id',
         'title',
         'sub_title',
         'description',
@@ -24,5 +24,9 @@ class Blog extends Model implements HasMedia
         $this->addMediaConversion('main_image');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

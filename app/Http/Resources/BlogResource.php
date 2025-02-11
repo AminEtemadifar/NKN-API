@@ -62,8 +62,8 @@ class BlogResource extends JsonResource
             'created_at' => $this->created_at,
             'description' => $this->description,
             'main_image' => FileResource::collection($this->getMedia('main_image')),
-            'doctor' => $this->whenLoaded('doctor', function () {
-                return new DoctorResource($this->doctor);
+            'user' => $this->whenLoaded('user', function () {
+                return new UserResource($this->user);
             })
         ];
     }

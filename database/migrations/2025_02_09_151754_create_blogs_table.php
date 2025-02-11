@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement()->primary();
-            $table->unsignedInteger('doctor_id')->index();
-            $table->foreign('doctor_id')->references('id')->on('doctors')
+            $table->unsignedInteger('user_id')->index();
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade');
 
             $table->string('title');

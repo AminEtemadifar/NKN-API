@@ -52,7 +52,7 @@ class StoreDoctorRequest extends FormRequest
             'terms' => 'nullable|array',
             'terms.*' => 'nullable|integer|exists:terms,id',
             'portfolio' => 'nullable|array',
-            'portfolio.*' => 'required|image|mimes:jpeg,png,jpg,svg`',
+            'portfolio.*' => 'required|image|mimes:jpeg,png,jpg,svg',
             //'user_id' => 'nullable|integer|exists:users,id',
 
         ];
