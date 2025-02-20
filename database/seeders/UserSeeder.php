@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'email' => "admin@admin.com",
             'password' => Hash::make('mifadev'),
         ]);
-        $user->assignRole(RoleEnum::FULL_ADMIN);
+        $user->assignRole(RoleEnum::FULL_ADMIN->value);
 
     }
 }

@@ -12,6 +12,7 @@ use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -72,7 +73,6 @@ class DoctorController extends Controller
 
     public function index()
     {
-        //TODO sort by hospital
         $doctors = QueryBuilder::for(Doctor::class)
             ->allowedFilters([
                 AllowedFilter::callback('gender',
@@ -89,6 +89,9 @@ class DoctorController extends Controller
                 }),
             ])->paginate(request()->per_page);
 
+        if (!Auth::check()){
+            return DoctorResource::collection($doctors);
+        }
         $taxonomies = Taxonomy::with([
             'terms' => fn($terms) => $terms->filterable()
         ])->get();
@@ -163,11 +166,72 @@ class DoctorController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *      path="/doctors/{id}",
+     *      tags={"doctors"},
+     *      summary="Update an existing doctor",
+     *      description="Update a doctor in the database",
+     *      operationId="updateDoctor",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID of the doctor to be updated",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateDoctorRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Doctor updated successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/DoctorResource")
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Doctor not found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error"
+     *      )
+     * )
      */
     public function update(UpdateDoctorRequest $request, Doctor $doctor)
     {
-        //
+        $data = $request->validated();
+
+        /** @var Doctor $doctor */
+        $doctor = $doctor->update($data);
+
+        if ($request->has('main_image')) {
+            $doctor->clearMediaCollection('image');
+            $doctor->addMediaFromRequest('main_image')
+                ->toMediaCollection('image');
+
+        }
+
+        if ($request->has('portfolio')) {
+            $doctor->clearMediaCollection('portfolio');
+            foreach ($request->file('portfolio') as $item) {
+                if ($item) {
+                    $doctor->addMedia($item)
+                        ->toMediaCollection('portfolio');
+                }
+            }
+        }
+        if ($request->has('terms')) {
+            $doctor->terms()->sync($data['terms']);
+        }
+        return new DoctorResource($doctor);
     }
 
     /**
@@ -175,6 +239,6 @@ class DoctorController extends Controller
      */
     public function destroy(Doctor $doctor)
     {
-        //
+        return $doctor->delete();
     }
 }

@@ -46,6 +46,12 @@ class UserResource extends JsonResource
      *         property="email",
      *         type="string",
      *         description="email of the user"
+     *     ),
+     *     @OA\Property(
+     *         property="role",
+     *         type="array",
+     *         description="list of role that associated with the user . list of role include : full_admin admin doc",
+     *         @OA\Items(type="string")
      *     )
      * )
      */
@@ -58,6 +64,7 @@ class UserResource extends JsonResource
             'full_name' => $this->firstname . ' ' . $this->lastname,
             'phone' => $this->phone,
             'email' => $this->email,
+            'role' => $this->getRoleNames(),
         ];
     }
 }
