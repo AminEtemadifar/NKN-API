@@ -56,9 +56,13 @@ class StoreBlogRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->has('title')) {
+            $this->merge(['slug'=> preg_replace('/\s+/', '_', $this->input('title'))]);
+        }
         return [
             'title' => 'required|string',
-            'sub_title'=> 'nullable|string',
+            'slug' => 'required|string|unique:blogs,slug',
+            'sub_title' => 'nullable|string',
             'description' => 'required|string',
             'duration' => 'nullable|integer',
             'main_image' => 'required|image|mimes:jpeg,png,jpg',

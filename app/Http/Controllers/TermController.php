@@ -20,6 +20,16 @@ class TermController extends Controller
      *     tags={"Terms"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
+     *           name="page",
+     *           in="query",
+     *           description="Page number for pagination",
+     *           required=false,
+     *           @OA\Schema(
+     *               type="integer",
+     *               example=1
+     *           )
+     *     ),
+     *     @OA\Parameter(
      *           name="filter[search]",
      *           description="search in data of terms",
      *           in="query",
@@ -28,6 +38,33 @@ class TermController extends Controller
      *               type="string",
      *           ),
      *      ),
+     *     @OA\Parameter(
+     *           name="sort",
+     *           in="query",
+     *           description="Sort blogs by title : 'title', 'duration', 'sub_title', 'created_at', 'published_at'",
+     *           required=false,
+     *           @OA\Schema(
+     *               type="string",
+     *               example="title"
+     *           )
+     *     ),
+     *     @OA\Parameter(
+     *           name="filter[taxonomy_id]",
+     *           in="query",
+     *           required=false,
+     *           @OA\Schema(
+     *               type="integer",
+     *           )
+     *     ),
+     *     @OA\Parameter(
+     *           name="per_page",
+     *           description="default 15",
+     *           in="query",
+     *           required=false,
+     *           @OA\Schema(
+     *               type="integer",
+     *           )
+     *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Categories items retrieved successfully",
@@ -37,7 +74,9 @@ class TermController extends Controller
      *                  property="data",
      *                  type="array",
      *                  @OA\Items(ref="#/components/schemas/TermResource")
-     *              )
+     *              ),
+     *              @OA\Property(property="links", ref="#/components/schemas/LinksPaginationResource"),
+     *              @OA\Property(property="meta", ref="#/components/schemas/MetaPaginationResource"),
      *          )
      *      ),
      *     @OA\Response(
@@ -52,13 +91,13 @@ class TermController extends Controller
      */
     public function index()
     {
-        //TODO filter by taxonomy_key
         $terms = QueryBuilder::for(Term::class)
             ->allowedFilters(
+                AllowedFilter::exact('taxonomy_id'),
                 AllowedFilter::callback('search', function (Builder $query, $value) {
                     $query->where('title', 'like', '%' . $value . '%');
                 }),
-            );
+            )->paginate(request()->input('per_page'));
         return TermResource::collection($terms);
 
     }
@@ -106,6 +145,15 @@ class TermController extends Controller
      *     description="Retrieve category item as terms resource",
      *     tags={"Terms"},
      *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *           name="id",
+     *           in="path",
+     *           required=true,
+     *           @OA\Schema(
+     *               type="integer",
+     *               example=1
+     *           )
+     *       ),
      *     @OA\Response(
      *         response=200,
      *         description="categories item in store successfully",
@@ -133,6 +181,16 @@ class TermController extends Controller
      *      summary="Update existing category item",
      *      description="Returns updated category item data",
      *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          description="ID of the term to update",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *              example=1
+     *          )
+     *      ),
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/UpdateTermResourceRequest")
@@ -164,10 +222,20 @@ class TermController extends Controller
 
     /**
      * @OA\Delete (
-     *     path="/term",
+     *     path="/term/{id}",
      *     summary="delete existing category item",
      *     tags={"Terms"},
      *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          description="ID of the term to delete",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *              example=1
+     *          )
+     *      ),
      *     @OA\Response(
      *         response=200,
      *         description="category item destroy successfully",

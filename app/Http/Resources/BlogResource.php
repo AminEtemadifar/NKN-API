@@ -19,9 +19,19 @@ class BlogResource extends JsonResource
      *         description="The title of the blog"
      *     ),
      *     @OA\Property(
+     *         property="id",
+     *         type="integer",
+     *         description="The id of the blog"
+     *     ),
+     *     @OA\Property(
      *         property="sub_title",
      *         type="string",
      *         description="The subtitle of the blog"
+     *     ),
+     *     @OA\Property(
+     *         property="slug",
+     *         type="string",
+     *         description="The slug of the blog"
      *     ),
      *     @OA\Property(
      *         property="duration",
@@ -52,17 +62,19 @@ class BlogResource extends JsonResource
      *         @OA\Items(ref="#/components/schemas/FileResource")
      *     ),
      *     @OA\Property(
-     *         property="doctor",
+     *         property="user",
      *         type="object",
      *         description="The doctor associated with the blog",
-     *         ref="#/components/schemas/DoctorResource"
+     *         ref="#/components/schemas/UserResource"
      *     )
      * )
      */
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'sub_title' => $this->sub_title,
             'duration' => $this->duration,
             'created_at' => $this->created_at,
@@ -71,9 +83,7 @@ class BlogResource extends JsonResource
                 return $this->description;
             }),
             'main_image' => FileResource::collection($this->getMedia('main_image')),
-            'user' => $this->whenLoaded('user', function () {
-                return new UserResource($this->user);
-            })
+            'user' => new UserResource($this->user)
         ];
     }
 }

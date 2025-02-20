@@ -17,6 +17,7 @@ return new class extends Migration {
                 ->onUpdate('cascade');
 
             $table->string('title');
+            $table->string('slug')->unique();
             $table->string('sub_title')->nullable();
             $table->mediumText('description');
             $table->string('duration')->nullable();

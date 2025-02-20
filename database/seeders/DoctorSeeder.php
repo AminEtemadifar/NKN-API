@@ -9,6 +9,7 @@ use App\Models\Taxonomy;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DoctorSeeder extends Seeder
 {
@@ -73,6 +74,7 @@ class DoctorSeeder extends Seeder
             for ($i = 0; $i < 4; $i++) {
                 $randomBlogKey = array_rand($blogs);
                 $randomBlog = $blogs[$randomBlogKey];
+                $randomBlog['slug'] = preg_replace('/\s+/', '_', $randomBlog['title']) . rand(0,99);
                 $randomBlogImage = $randomBlog['image'];
                 unset($randomBlog['image']);
                 $blog = $user->blogs()->create($randomBlog);

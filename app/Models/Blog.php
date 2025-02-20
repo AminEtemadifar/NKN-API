@@ -16,12 +16,18 @@ class Blog extends Model implements HasMedia
     protected $fillable = [
         'user_id',
         'title',
+        'slug',
         'sub_title',
         'description',
         'duration',
         'published_at',
     ];
     protected $hidden = ['description'];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     // Mutator
     public function setPublishAttribute($value)

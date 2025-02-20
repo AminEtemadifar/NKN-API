@@ -30,8 +30,17 @@ class BlogController extends Controller
      *              type="integer",
      *              example=1
      *          )
-     *      ),
-     *      @OA\Parameter(
+     *    ),
+     *    @OA\Parameter(
+     *          name="with_slider",
+     *          in="query",
+     *          description="Include slider blogs",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="boolean"
+     *          )
+     *    ),
+     *    @OA\Parameter(
      *          name="filter[search]",
      *          in="query",
      *          description="Search term to filter blogs by title or sub_title",
@@ -40,8 +49,16 @@ class BlogController extends Controller
      *              type="string",
      *              example="example"
      *          )
-     *      ),
-     *      @OA\Parameter(
+     *    ),
+     *    @OA\Parameter(
+     *          name="filter[user_id]",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="integer",
+     *          )
+     *    ),
+     *    @OA\Parameter(
      *          name="sort",
      *          in="query",
      *          description="Sort blogs by title : 'title', 'duration', 'sub_title', 'created_at', 'published_at'",
@@ -50,27 +67,39 @@ class BlogController extends Controller
      *              type="string",
      *              example="title"
      *          )
-     *      ),
-     *     @OA\Response(
+     *    ),
+     *    @OA\Response(
      *         response=200,
      *         description="Successful response",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="data", ref="#/components/schemas/BlogResource"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/BlogResource")
+     *             ),
      *             @OA\Property(property="links", ref="#/components/schemas/LinksPaginationResource"),
      *             @OA\Property(property="meta", ref="#/components/schemas/MetaPaginationResource"),
+     *             @OA\Property(
+     *                 property="slider",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/BlogResource")
+     *             ),
      *         )
-     *     )
+     *    )
      * )
      */
+
     public function index()
     {
         $blogs = QueryBuilder::for(Blog::class)
+            ->with('user')
             ->allowedFilters([
                 AllowedFilter::callback('search', function (Builder $query, $value) {
                     $query->where('title', 'like', '%' . $value . '%');
                     $query->orWhere('sub_title', 'like', '%' . $value . '%');
                 }),
+                AllowedFilter::exact('user_id'),
             ])->allowedSorts('title', 'duration', 'sub_title', 'created_at', 'published_at')->paginate(request()->per_page);
 
         if (request()->has('with_slider') && request()->input('with_slider')) {
@@ -109,7 +138,8 @@ class BlogController extends Controller
     public function store(StoreBlogRequest $request)
     {
         $data = $request->validated();
-        $blog['user_id'] = Auth::id();
+        $data['user_id'] = Auth::id();
+
         $blog = Blog::query()->create($data);
 
         if ($request->has('main_image')) {
@@ -124,19 +154,19 @@ class BlogController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/blogs/{id}",
+     *     path="/blogs/{slug}",
      *     summary="Get a specific blog",
      *     description="Retrieve a specific blog resource by its ID.",
      *     operationId="getBlogById",
      *     tags={"Blogs"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="slug",
      *         in="path",
      *         description="ID of the blog to retrieve",
      *         required=true,
      *         @OA\Schema(
-     *             type="integer",
-     *             example=1
+     *             type="string",
+     *             example="لورم_ایپسوم_عنوان_اول"
      *         )
      *     ),
      *     @OA\Response(
