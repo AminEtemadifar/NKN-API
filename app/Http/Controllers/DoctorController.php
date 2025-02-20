@@ -89,7 +89,7 @@ class DoctorController extends Controller
                 }),
             ])->paginate(request()->per_page);
 
-        if (!Auth::check()){
+        if (!Auth::check()) {
             return DoctorResource::collection($doctors);
         }
         $taxonomies = Taxonomy::with([
@@ -235,7 +235,36 @@ class DoctorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/doctors/{id}",
+     *      tags={"doctors"},
+     *      summary="Delete an existing doctor",
+     *      description="Delete a doctor from the database",
+     *      operationId="deleteDoctor",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID of the doctor to be deleted",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Doctor deleted successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/DoctorResource")
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Doctor not found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error"
+     *      )
+     * )
      */
     public function destroy(Doctor $doctor)
     {
