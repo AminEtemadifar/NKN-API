@@ -76,7 +76,7 @@ class UpdateSlideRequest extends FormRequest
             'description' => 'nullable|string',
             'ordering' => 'nullable|integer',
             'link' => 'nullable|url',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,mp4|max:2048',
             'button.*' => 'nullable|array',
             'button.title' => 'nullable|string',
             'button.link' => 'nullable',
