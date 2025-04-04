@@ -31,7 +31,12 @@ class TermResource extends JsonResource
      *         property="slug",
      *         type="string",
      *         description="slug of the category item"
-     *     )
+     *     ),
+     *      @OA\Property(
+     *          property="taxonomy",
+     *          ref="#/components/schemas/TaxonomyResource",
+     *          description="Taxonomy associated with the term"
+     *      )
      * )
      */
     public function toArray(Request $request): array
@@ -40,6 +45,9 @@ class TermResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
+            'taxonomy' => $this->whenLoaded('taxonomy' , function (){
+                return TaxonomyResource::make($this->taxonomy);
+            }),
         ];
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->string('title');
             $table->string('description')->nullable();
-            $table->unsignedTinyInteger('ordering');
+            $table->unsignedTinyInteger('ordering')->nullable();
             $table->string('link')->nullable();
 
             $table->unsignedInteger('slider_id')->index();

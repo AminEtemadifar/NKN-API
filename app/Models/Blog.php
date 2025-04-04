@@ -22,7 +22,7 @@ class Blog extends Model implements HasMedia
         'duration',
         'published_at',
     ];
-    protected $hidden = ['description'];
+    //protected $hidden = ['description'];
 
     public function getRouteKeyName()
     {

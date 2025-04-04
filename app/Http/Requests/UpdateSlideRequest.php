@@ -11,7 +11,7 @@ class UpdateSlideRequest extends FormRequest
      * @OA\Schema(
      *     schema="UpdateSlideResourceRequest",
      *     type="object",
-     *     required={"image", "ordering"},
+     *     required={"image"},
      *     @OA\Property(
      *         property="title",
      *         type="string",
@@ -74,12 +74,12 @@ class UpdateSlideRequest extends FormRequest
         return [
             'title' => 'nullable|string',
             'description' => 'nullable|string',
-            'ordering' => 'required|integer',
+            'ordering' => 'nullable|integer',
             'link' => 'nullable|url',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'button.*' => 'nullable|array',
             'button.title' => 'nullable|string',
-            'button.link' => 'nullable|url',
+            'button.link' => 'nullable',
         ];
     }
 }

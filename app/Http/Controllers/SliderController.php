@@ -149,9 +149,10 @@ class SliderController extends Controller
         $data = $request->validated();
         $slider->update($data);
         if ($request->has('thumbnails')) {
+            $slider->clearMediaCollection('thumbnails');
+
             foreach ($request->file('thumbnails') as $thumbnail) {
                 if ($thumbnail) {
-                    $slider->clearMediaCollection('thumbnails');
                     $slider->addMedia($thumbnail)
                         ->toMediaCollection('thumbnails');
                 }

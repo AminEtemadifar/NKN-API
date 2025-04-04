@@ -89,7 +89,7 @@ class DoctorController extends Controller
                 }),
             ])->paginate(request()->per_page);
 
-        if (!Auth::check()) {
+        if (Auth::check()) {
             return DoctorResource::collection($doctors);
         }
         $taxonomies = Taxonomy::with([
@@ -158,7 +158,35 @@ class DoctorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/doctors/{id}",
+     *      tags={"doctors"},
+     *      summary="Get a single doctor",
+     *      description="Retrieve a single doctor by ID",
+     *      operationId="getDoctor",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID of the doctor to be retrieved",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Doctor retrieved successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/DoctorResource")
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Doctor not found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error"
+     *      )
+     * )
      */
     public function show(Doctor $doctor)
     {
@@ -210,8 +238,8 @@ class DoctorController extends Controller
         $data = $request->validated();
 
         /** @var Doctor $doctor */
-        $doctor = $doctor->update($data);
-
+        $doctor->update($data);
+        $doctor->refresh();
         if ($request->has('main_image')) {
             $doctor->clearMediaCollection('image');
             $doctor->addMediaFromRequest('main_image')

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('address_link')->nullable();
+            $table->string('website_link')->nullable();
             $table->string('fax')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();

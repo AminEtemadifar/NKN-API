@@ -140,14 +140,11 @@ class BlogController extends Controller
         $data = $request->validated();
         $data['user_id'] = Auth::id();
 
-        $blog = Blog::query()->create($data);
+        $blog = Blog::create($data);
 
-        if ($request->has('main_image')) {
-            $blog->clearMediaCollection('image');
-            $blog->addMediaFromRequest('main_image')
-                ->toMediaCollection('image');
-
-        }
+        $blog->clearMediaCollection('main_image');
+        $blog->addMediaFromRequest('main_image')
+            ->toMediaCollection('main_image');
 
         return BlogResource::make($blog);
     }
@@ -187,18 +184,18 @@ class BlogController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/blogs/{id}",
+     *     path="/blogs/{slug}",
      *     tags={"Blogs"},
      *     summary="Update an existing blog",
      *     description="Update the details of an existing blog resource.",
      *     operationId="updateBlog",
      *     @OA\Parameter(
-     *         name="id",
+     *         name="slug",
      *         in="path",
      *         description="ID of the blog to update",
      *         required=true,
      *         @OA\Schema(
-     *             type="integer",
+     *             type="string",
      *             example=1
      *         )
      *     ),
@@ -234,12 +231,12 @@ class BlogController extends Controller
         /** @var Blog $blog */
 
         $data = $request->validated();
-        $blog = $blog->update($data);
-
+        $blog->update($data);
+        $blog->refresh();
         if ($request->has('main_image')) {
-            $blog->clearMediaCollection('image');
+            $blog->clearMediaCollection('main_image');
             $blog->addMediaFromRequest('main_image')
-                ->toMediaCollection('image');
+                ->toMediaCollection('main_image');
 
         }
 
@@ -248,18 +245,18 @@ class BlogController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/blogs/{id}",
+     *     path="/blogs/{slug}",
      *     tags={"Blogs"},
      *     summary="Delete a specific blog",
      *     description="Remove a specific blog resource by its ID.",
      *     operationId="deleteBlog",
      *     @OA\Parameter(
-     *         name="id",
+     *         name="slug",
      *         in="path",
      *         description="ID of the blog to delete",
      *         required=true,
      *         @OA\Schema(
-     *             type="integer",
+     *             type="string",
      *             example=1
      *         )
      *     ),

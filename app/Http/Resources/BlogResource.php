@@ -79,10 +79,8 @@ class BlogResource extends JsonResource
             'duration' => $this->duration,
             'created_at' => $this->created_at,
             'published_at' => $this->published_at,
-            'description' => $this->whenLoaded('description', function () {
-                return $this->description;
-            }),
-            'main_image' => FileResource::collection($this->getMedia('main_image')),
+            'description' => $this->description,
+            'main_image' => FileResource::make($this->getFirstMedia('main_image')),
             'user' => new UserResource($this->user)
         ];
     }

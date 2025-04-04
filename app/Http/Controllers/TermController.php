@@ -92,6 +92,7 @@ class TermController extends Controller
     public function index()
     {
         $terms = QueryBuilder::for(Term::class)
+            ->with('taxonomy')
             ->allowedFilters(
                 AllowedFilter::exact('taxonomy_id'),
                 AllowedFilter::callback('search', function (Builder $query, $value) {
@@ -171,6 +172,7 @@ class TermController extends Controller
      */
     public function show(Term $term)
     {
+        $term = Term::with('taxonomy')->find($term->id);
         return TermResource::make($term);
     }
 

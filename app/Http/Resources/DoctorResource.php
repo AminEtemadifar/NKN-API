@@ -84,6 +84,12 @@ class DoctorResource extends JsonResource
      *          type="array",
      *          description="categories item of doctor",
      *          @OA\Items(ref="#/components/schemas/TermResource")
+     *      ),
+     *     @OA\Property(
+     *          property="hospital",
+     *          type="array",
+     *          description="hospital of doctor",
+     *          @OA\Items(ref="#/components/schemas/HospitalResource")
      *      )
      * )
      */
@@ -98,11 +104,12 @@ class DoctorResource extends JsonResource
             "sub_title" => $this->sub_title,
             "short_description" => $this->short_description,
             "redirect" => $this->redirect,
-            "image" => FileResource::make($this->getFirstMedia('image')),
+            "image" => FileResource::make($this->getFirstMedia('image') ?? $this->getDefaultMedia()),
             "terms" => TermResource::collection($this->terms),
             "description" => $this->description,
             "portfolio" => FileResource::collection($this->getMedia('portfolio')),
             "gender" => $this->gender,
+            "hospital" => HospitalResource::make($this->hospital),
         ];
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Enums\SliderKeyEnum;
+use App\Http\Resources\BlogResource;
 use App\Http\Resources\HomeResource;
+use App\Models\Blog;
 use App\Models\Hospital;
 use App\Models\Slider;
 use App\Models\Taxonomy;
@@ -43,6 +45,7 @@ class HomeController extends Controller
             'main_terms' => $terms,
             'footer_terms' => $terms,
             'hospitals' => $hospitals,
+            'blogs' => Blog::limit(5)->orderBy('created_at')->get(),
         ];
 
         return HomeResource::make($data);

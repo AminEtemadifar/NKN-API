@@ -18,6 +18,11 @@ class Term extends Model
         'taxonomy_id',
     ];
 
+    public function taxonomy()
+    {
+        return $this->belongsTo(Taxonomy::class, 'taxonomy_id', 'id');
+    }
+
     public function scopeFilterable()
     {
         return $this->where('is_filter', true);

@@ -22,10 +22,11 @@ return new class extends Migration {
             $table->mediumText('description')->nullable();
             $table->tinyInteger('gender')
                 ->comment('male: ' . GenderEnum::MALE->value . '; female: ' . GenderEnum::FEMALE->value)
+                ->nullable()
                 ->index();
             $table->tinyInteger('status')->default(1)->index();
 
-            $table->unsignedInteger('hospital_id')->index();
+            $table->unsignedInteger('hospital_id')->nullable()->index();
             $table->foreign('hospital_id')->references('id')->on('hospitals')
                 ->onUpdate('cascade');
 

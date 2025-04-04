@@ -40,7 +40,13 @@ class HomeResource extends JsonResource
      *          type="array",
      *          @OA\Items(ref="#/components/schemas/HospitalResource"),
      *          description="hospital list of home page"
-     *      )
+     *      ),
+     *      @OA\Property(
+     *           property="blogs",
+     *           type="array",
+     *           @OA\Items(ref="#/components/schemas/BlogResource"),
+     *           description="Blog list of home page"
+     *       )
      * )
      */
     public function toArray(Request $request): array
@@ -50,6 +56,7 @@ class HomeResource extends JsonResource
             'main_terms' => TermResource::collection($this->resource->main_terms),
             'footer_terms' => TermResource::collection($this->resource->footer_terms),
             'hospitals' => HospitalResource::collection($this->resource->hospitals),
+            'blogs' => BlogResource::collection($this->resource->blogs),
         ];
     }
 }

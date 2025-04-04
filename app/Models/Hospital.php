@@ -11,7 +11,7 @@ class Hospital extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    protected $fillable = ['name', 'address', 'address_link', 'fax', 'email'];
+    protected $fillable = ['name', 'address', 'address_link', 'website_link', 'fax', 'email'];
 
     public function registerMediaConversions(?Media $media = null): void
     {

@@ -156,7 +156,7 @@ class SlideController extends Controller
         $data = $request->validated();
         $data['extra_data'] = null;
         if (!empty($data['button'])) {
-            $data['extra_data']['button'] = $data['button'];
+            $data['extra_data']['button'] = $data['button'][0];
         }
         $slide->update($data);
 

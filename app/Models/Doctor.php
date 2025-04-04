@@ -76,4 +76,21 @@ class Doctor extends Model implements HasMedia
     {
         return $this->belongsTo(User::class);
     }
+
+    public function hospital(): BelongsTo
+    {
+        return $this->belongsTo(Hospital::class);
+    }
+
+    public function getDefaultMedia(): object
+    {
+        return (object)([
+            'id' => 0,
+            'file_name' => 'default.png',
+            'preview_url' => env('APP_URL') . '/Images/Doctors/default.png',
+            'original_url' => env('APP_URL') . '/Images/Doctors/default.png',
+            'extension' => 'image/png',
+            'size' => '122',
+        ]);
+    }
 }
