@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateBlogRequest;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -90,8 +91,11 @@ class BlogController extends Controller
      * )
      */
 
-    public function index()
+    public function index(Request $request)
     {
+        $request->mergeIfMissing([
+            'type'  => 'blog'
+        ]);
         $blogs = QueryBuilder::for(Blog::class)
             ->with('user')
             ->allowedFilters([
@@ -100,6 +104,7 @@ class BlogController extends Controller
                     $query->orWhere('sub_title', 'like', '%' . $value . '%');
                 }),
                 AllowedFilter::exact('user_id'),
+                AllowedFilter::Scope('type', 'blog_type'),
             ])->allowedSorts('title', 'duration', 'sub_title', 'created_at', 'published_at')->paginate(request()->per_page);
 
         if (request()->has('with_slider') && request()->input('with_slider')) {

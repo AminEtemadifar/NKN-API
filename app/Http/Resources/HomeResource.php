@@ -36,6 +36,12 @@ class HomeResource extends JsonResource
      *          description="terms list of home page"
      *      ),
      *      @OA\Property(
+     *          property="news",
+     *          type="array",
+     *          @OA\Items(ref="#/components/schemas/BlogResource"),
+     *          description=""
+     *      ),
+     *      @OA\Property(
      *          property="hospitals",
      *          type="array",
      *          @OA\Items(ref="#/components/schemas/HospitalResource"),
@@ -56,6 +62,7 @@ class HomeResource extends JsonResource
             'main_terms' => TermResource::collection($this->resource->main_terms),
             'footer_terms' => TermResource::collection($this->resource->footer_terms),
             'hospitals' => HospitalResource::collection($this->resource->hospitals),
+            'news' => BlogResource::collection($this->resource->news),
             'blogs' => BlogResource::collection($this->resource->blogs),
         ];
     }

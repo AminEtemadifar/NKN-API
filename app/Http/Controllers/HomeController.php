@@ -40,46 +40,17 @@ class HomeController extends Controller
         $taxonomy = Taxonomy::query()->where('key', '=', 'expertise')->first();
         $terms = !empty($taxonomy) ? $taxonomy->terms()->where('is_main', true)->get() : [];
         $hospitals = Hospital::query()->get();
+        $news = Blog::query()->news()->published()->orderByDesc('published_at')->limit(7)->get();
         $data = (object) [
             'sliders' => $sliders,
             'main_terms' => $terms,
             'footer_terms' => $terms,
             'hospitals' => $hospitals,
+            'news' => $news,
             'blogs' => Blog::limit(5)->orderBy('created_at')->get(),
         ];
 
         return HomeResource::make($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

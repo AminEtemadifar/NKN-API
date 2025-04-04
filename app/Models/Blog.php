@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Http\Enums\GenderEnum;
+use App\Http\Enums\BlogTypeEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -21,6 +22,7 @@ class Blog extends Model implements HasMedia
         'description',
         'duration',
         'published_at',
+        'type',
     ];
     //protected $hidden = ['description'];
 
@@ -38,9 +40,34 @@ class Blog extends Model implements HasMedia
             $this->attributes['published_at'] = null;
         }
     }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('main_image');
+    }
+
+    public function scopeBlogs(Builder $query): Builder
+    {
+        return $query->where('blog_type', BlogTypeEnum::BLOG->value);
+    }
+
+    /**
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeNews(Builder $query): Builder
+    {
+        return $query->where('blog_type', BlogTypeEnum::NEWS->value);
+    }
+
+    public function scopeSocialResponsibilities(Builder $query): Builder
+    {
+        return $query->where('blog_type', BlogTypeEnum::SOCIAL_RESPONSIBILITY->value);
+    }
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->whereNotNull('published_at');
     }
 
     public function user()

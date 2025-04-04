@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Enums\BlogTypeEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBlogRequest extends FormRequest
 {
@@ -37,6 +39,12 @@ class StoreBlogRequest extends FormRequest
      *         description="Duration of the blog"
      *     ),
      *     @OA\Property(
+     *         property="type",
+     *         type="string",
+     *         nullable=true,
+     *         description="type of blog. values: blog,news,social_responsibilty . default: blog"
+     *     ),
+     *     @OA\Property(
      *         property="main_image",
      *         type="string",
      *         format="binary",
@@ -66,6 +74,7 @@ class StoreBlogRequest extends FormRequest
             'description' => 'required|string',
             'duration' => 'nullable|integer',
             'main_image' => 'required|image|mimes:jpeg,png,jpg',
+            'type' => 'nullable|string|' . Rule::enum(BlogTypeEnum::class),
         ];
     }
 }
