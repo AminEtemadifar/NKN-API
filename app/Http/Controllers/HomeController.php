@@ -3,24 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Enums\SliderKeyEnum;
-use App\Http\Resources\BlogResource;
 use App\Http\Resources\HomeResource;
 use App\Models\Blog;
 use App\Models\Hospital;
 use App\Models\Slider;
 use App\Models\Taxonomy;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class HomeController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/home",
-     *      tags={"Home"},
-     *      summary="home",
-     *      description="home data",
+     *     path="/home",
+     *     tags={"Home"},
+     *     summary="home",
+     *     description="home data",
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -41,7 +37,7 @@ class HomeController extends Controller
         $terms = !empty($taxonomy) ? $taxonomy->terms()->where('is_main', true)->get() : [];
         $hospitals = Hospital::query()->get();
         $news = Blog::query()->news()->published()->orderByDesc('published_at')->limit(7)->get();
-        $data = (object) [
+        $data = (object)[
             'sliders' => $sliders,
             'main_terms' => $terms,
             'footer_terms' => $terms,

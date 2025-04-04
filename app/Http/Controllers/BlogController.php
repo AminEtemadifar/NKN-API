@@ -104,7 +104,7 @@ class BlogController extends Controller
                     $query->orWhere('sub_title', 'like', '%' . $value . '%');
                 }),
                 AllowedFilter::exact('user_id'),
-                AllowedFilter::Scope('type', 'blog_type'),
+                AllowedFilter::Scope('type'),
             ])->allowedSorts('title', 'duration', 'sub_title', 'created_at', 'published_at')->paginate(request()->per_page);
 
         if (request()->has('with_slider') && request()->input('with_slider')) {

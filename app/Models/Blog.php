@@ -48,7 +48,7 @@ class Blog extends Model implements HasMedia
 
     public function scopeBlogs(Builder $query): Builder
     {
-        return $query->where('blog_type', BlogTypeEnum::BLOG->value);
+        return $query->where('type', BlogTypeEnum::BLOG->value);
     }
 
     /**
@@ -57,12 +57,12 @@ class Blog extends Model implements HasMedia
      */
     public function scopeNews(Builder $query): Builder
     {
-        return $query->where('blog_type', BlogTypeEnum::NEWS->value);
+        return $query->where('type', BlogTypeEnum::NEWS->value);
     }
 
     public function scopeSocialResponsibilities(Builder $query): Builder
     {
-        return $query->where('blog_type', BlogTypeEnum::SOCIAL_RESPONSIBILITY->value);
+        return $query->where('type', BlogTypeEnum::SOCIAL_RESPONSIBILITY->value);
     }
 
     public function scopePublished(Builder $query): Builder
