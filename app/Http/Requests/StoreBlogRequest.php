@@ -45,6 +45,12 @@ class StoreBlogRequest extends FormRequest
      *         description="type of blog. values: blog,news,social_responsibilty . default: blog"
      *     ),
      *     @OA\Property(
+     *         property="published",
+     *         type="boolean",
+     *         nullable=true,
+     *         description="publish status of the blog ",
+     *     ),
+     *     @OA\Property(
      *         property="main_image",
      *         type="string",
      *         format="binary",
@@ -71,10 +77,11 @@ class StoreBlogRequest extends FormRequest
             'title' => 'required|string',
             'slug' => 'required|string|unique:blogs,slug',
             'sub_title' => 'nullable|string',
+            'published' => 'nullable|boolean',
             'description' => 'required|string',
             'duration' => 'nullable|integer',
             'main_image' => 'required|image|mimes:jpeg,png,jpg',
-            'type' => 'nullable|string|' . Rule::enum(BlogTypeEnum::class),
+            'type' => 'nullable|string|' . Rule::In(BlogTypeEnum::values()),
         ];
     }
 }

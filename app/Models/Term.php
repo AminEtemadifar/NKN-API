@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,13 +19,19 @@ class Term extends Model
         'taxonomy_id',
     ];
 
+    protected $casts = [
+        'is_main' => "boolean",
+        'is_filter' => "boolean",
+        'is_footer' => "boolean",
+    ];
+
     public function taxonomy()
     {
         return $this->belongsTo(Taxonomy::class, 'taxonomy_id', 'id');
     }
 
-    public function scopeFilterable()
+    public function scopeFilterable(Builder $query): Builder
     {
-        return $this->where('is_filter', true);
+        return $query->where('is_filter', true);
     }
 }

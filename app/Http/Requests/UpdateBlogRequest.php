@@ -37,7 +37,7 @@ class UpdateBlogRequest extends FormRequest
      *         nullable=true
      *     ),
      *     @OA\Property(
-     *         property="publish",
+     *         property="published",
      *         type="boolean",
      *         description="publish status of the blog default is false",
      *         nullable=true
@@ -66,6 +66,7 @@ class UpdateBlogRequest extends FormRequest
         return [
             'title' => 'required|string',
             'sub_title'=> 'nullable|string',
+            'published'=> 'nullable|boolean',
             'description' => 'required|string',
             'duration' => 'nullable|integer',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg',

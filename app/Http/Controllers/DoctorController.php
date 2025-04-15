@@ -13,6 +13,7 @@ use App\Models\Hospital;
 use App\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -51,6 +52,15 @@ class DoctorController extends Controller
      *              type="string",
      *          ),
      *      ),
+     *     @OA\Parameter(
+     *          name="filter[slug]",
+     *          description="filter doctrs by terms slug",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *          ),
+     *      ),
      *      @OA\Parameter(
      *          name="filter[hospital]",
      *          description="filter doctrs by hospital_id",
@@ -74,11 +84,19 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = QueryBuilder::for(Doctor::class)
+            ->with('terms')
             ->allowedFilters([
                 AllowedFilter::callback('gender',
                     fn(Builder $query, string $value) => $value == 'female' ? $query->where('gender', GenderEnum::FEMALE->value) :
                         ($value == 'male' ? $query->where('gender', GenderEnum::MALE->value) : null)),
                 AllowedFilter::partial('terms', 'terms.id'),
+                AllowedFilter::callback('slug', function (Builder $query, $slug) {
+                    $decodedSlug = urldecode(urldecode($slug));
+                    $query->join('doctor_term', 'doctors.id', '=', 'doctor_term.doctor_id')
+                        ->join('terms', 'doctor_term.term_id', '=', 'terms.id')
+                        ->where('terms.slug', 'like', '%' . $decodedSlug . '%')
+                        ->select('doctors.*', 'terms.id as term_id');
+                }),
                 AllowedFilter::exact('hospital', 'hospital_id'),
                 AllowedFilter::callback('search', function (Builder $query, $value) {
                     $query->where('first_name', 'like', '%' . $value . '%');

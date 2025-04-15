@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Enums\RoleEnum;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Http\Resources\BlogResource;
@@ -60,6 +59,14 @@ class BlogController extends Controller
      *          )
      *    ),
      *    @OA\Parameter(
+     *          name="filter[type]",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *          )
+     *    ),
+     *    @OA\Parameter(
      *          name="sort",
      *          in="query",
      *          description="Sort blogs by title : 'title', 'duration', 'sub_title', 'created_at', 'published_at'",
@@ -94,22 +101,25 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $request->mergeIfMissing([
-            'type'  => 'blog'
+            'filter' => ['type' => 'blog']
         ]);
         $blogs = QueryBuilder::for(Blog::class)
             ->with('user')
+            ->orderByDesc('published_at')
             ->allowedFilters([
                 AllowedFilter::callback('search', function (Builder $query, $value) {
                     $query->where('title', 'like', '%' . $value . '%');
                     $query->orWhere('sub_title', 'like', '%' . $value . '%');
                 }),
                 AllowedFilter::exact('user_id'),
-                AllowedFilter::Scope('type'),
-            ])->allowedSorts('title', 'duration', 'sub_title', 'created_at', 'published_at')->paginate(request()->per_page);
+                AllowedFilter::exact('type'),
+            ])
+            ->defaultSorts('-created_at')->allowedSorts('title', 'duration', 'sub_title', 'created_at', 'published_at')
+            ->paginate(request()->per_page);
 
         if (request()->has('with_slider') && request()->input('with_slider')) {
             return BlogResource::collection($blogs)->additional([
-                'slider' => BlogResource::collection(Blog::limit(5)->orderBy('created_at')->get()),
+                'slider' => BlogResource::collection(Blog::where('type', $request->input('type'))->limit(5)->orderBy('published_at')->get()),
             ]);
         }
         return BlogResource::collection($blogs);
