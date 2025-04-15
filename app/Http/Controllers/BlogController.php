@@ -62,6 +62,7 @@ class BlogController extends Controller
      *          name="filter[type]",
      *          in="query",
      *          required=false,
+     *          description="'news', 'blog' , social_responsibility",
      *          @OA\Schema(
      *              type="string",
      *          )
