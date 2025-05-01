@@ -34,4 +34,9 @@ class Term extends Model
     {
         return $query->where('is_filter', true);
     }
+
+    public function scopeIsMain(Builder $query): Builder
+    {
+        return $query->where('is_main', true);
+    }
 }

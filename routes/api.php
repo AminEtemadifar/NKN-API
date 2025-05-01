@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HospitalController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TaxonomyController;
@@ -25,6 +26,7 @@ Route::apiResource('doctors', DoctorController::class)->only(['index', 'show']);
 Route::apiResource('hospitals', HospitalController::class)->only('index');
 Route::apiResource('doctors', DoctorController::class)->only(['store']);
 Route::apiResource('blogs', BlogController::class)->only(['show', 'index']);
+Route::apiResource('search', SearchController::class)->only(['index']);
 
 Route::group([
     'as' => 'api.',

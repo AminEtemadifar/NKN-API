@@ -118,9 +118,11 @@ class BlogController extends Controller
             ->defaultSorts('-created_at')->allowedSorts('title', 'duration', 'sub_title', 'created_at', 'published_at')
             ->paginate(request()->per_page);
 
+
         if (request()->has('with_slider') && request()->input('with_slider')) {
+            $slider_blog = QueryBuilder::for(Blog::class)->allowedFilters([AllowedFilter::exact('type')])->limit(5)->orderBy('published_at')->get();
             return BlogResource::collection($blogs)->additional([
-                'slider' => BlogResource::collection(Blog::where('type', $request->input('type'))->limit(5)->orderBy('published_at')->get()),
+                'slider' => BlogResource::collection($slider_blog),
             ]);
         }
         return BlogResource::collection($blogs);

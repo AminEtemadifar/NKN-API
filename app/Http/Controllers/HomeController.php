@@ -34,7 +34,7 @@ class HomeController extends Controller
         ])->get();
 
         $taxonomy = Taxonomy::query()->where('key', '=', 'expertise')->first();
-        $terms = !empty($taxonomy) ? $taxonomy->terms()->where('is_main', true)->get() : [];
+        $terms = !empty($taxonomy) ? $taxonomy->terms()->isMain()->get() : [];
         $hospitals = Hospital::query()->get();
         $news = Blog::query()->news()->published()->orderByDesc('published_at')->limit(7)->get();
         $data = (object)[
