@@ -22,6 +22,11 @@ class HospitalResource extends JsonResource
      *         description="The name of the hospital"
      *     ),
      *     @OA\Property(
+     *         property="full_name",
+     *         type="string",
+     *         description="The full name of the hospital"
+     *     ),
+     *     @OA\Property(
      *         property="fax",
      *         type="string",
      *     ),
@@ -67,6 +72,7 @@ class HospitalResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'full_name' => 'بیمارستان ' . $this->name,
             'address' => $this->address,
             'fax' => $this->fax,
             'address_link' => $this->address_link,

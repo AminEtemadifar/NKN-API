@@ -39,4 +39,8 @@ class Term extends Model
     {
         return $query->where('is_main', true);
     }
+    public function scopeIsFooter(Builder $query): Builder
+    {
+        return $query->where('is_footer', true);
+    }
 }

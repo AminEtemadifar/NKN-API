@@ -181,7 +181,7 @@ class HospitalController extends Controller
     public function update(UpdateHospitalRequest $request, Hospital $hospital)
     {
         $data = $request->validated();
-        $hospital->update($data);
+        //$hospital->update($data);
 
         if ($request->has('main_thumbnail')) {
             $hospital->clearMediaCollection('main_thumbnail');

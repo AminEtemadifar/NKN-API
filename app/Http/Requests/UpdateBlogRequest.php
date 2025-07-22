@@ -63,6 +63,9 @@ class UpdateBlogRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->has('title')) {
+            $this->merge(['slug'=> preg_replace('/\s+/', '_', $this->input('title'))]);
+        }
         return [
             'title' => 'required|string',
             'sub_title'=> 'nullable|string',
@@ -71,6 +74,7 @@ class UpdateBlogRequest extends FormRequest
             'duration' => 'nullable|integer',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg',
             'publish' => 'nullable|boolean',
+            'slug' => 'nullable|string',
         ];
     }
 }

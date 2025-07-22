@@ -34,13 +34,12 @@ class HomeController extends Controller
         ])->get();
 
         $taxonomy = Taxonomy::query()->where('key', '=', 'expertise')->first();
-        $terms = !empty($taxonomy) ? $taxonomy->terms()->isMain()->get() : [];
         $hospitals = Hospital::query()->get();
         $news = Blog::query()->news()->published()->orderByDesc('published_at')->limit(7)->get();
         $data = (object)[
             'sliders' => $sliders,
-            'main_terms' => $terms,
-            'footer_terms' => $terms,
+            'main_terms' => !empty($taxonomy) ? $taxonomy->terms()->isMain()->get() : [],
+            'footer_terms' => !empty($taxonomy) ? $taxonomy->terms()->isFooter()->get() : [],
             'hospitals' => $hospitals,
             'news' => $news,
             'blogs' => Blog::limit(5)->orderBy('created_at')->get(),
