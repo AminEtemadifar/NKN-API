@@ -181,13 +181,7 @@ class HospitalController extends Controller
     public function update(UpdateHospitalRequest $request, Hospital $hospital)
     {
         $data = $request->validated();
-        //$hospital->update($data);
-
-        if ($request->has('main_thumbnail')) {
-            $hospital->clearMediaCollection('main_thumbnail');
-            $hospital->addMediaFromRequest('main_thumbnail')
-                ->toMediaCollection('main_thumbnail');
-        }
+        $hospital->update($data);
 
         if ($request->has('image')) {
             $hospital->clearMediaCollection('image');
@@ -239,6 +233,8 @@ class HospitalController extends Controller
      */
     public function destroy(Hospital $hospital)
     {
+        $hospital->clearMediaCollection('image');
+        $hospital->clearMediaCollection('thumbnail');
         return $hospital->delete();
     }
 }

@@ -54,12 +54,6 @@ class HospitalResource extends JsonResource
      *         description="The image associated with the hospital"
      *     ),
      *     @OA\Property(
-     *         property="main_thumbnail",
-     *         type="object",
-     *         ref="#/components/schemas/FileResource",
-     *         description="The image associated with the hospital and show in main page"
-     *     ),
-     *     @OA\Property(
      *         property="thumbnail",
      *         type="object",
      *         ref="#/components/schemas/FileResource",
@@ -79,7 +73,6 @@ class HospitalResource extends JsonResource
             'email' => $this->email,
             'website_link' => $this->website_link,
             'thumbnail' => FileResource::make($this->getFirstMedia('thumbnail')),
-            'main_thumbnail' => FileResource::make($this->getFirstMedia('main_thumbnail')),
             'image' => FileResource::make($this->getFirstMedia('image')),
         ];
     }

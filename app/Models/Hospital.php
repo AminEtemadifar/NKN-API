@@ -16,7 +16,6 @@ class Hospital extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('image');
-        $this->addMediaConversion('main_thumbnail');
         $this->addMediaConversion('thumbnail');
     }
 }

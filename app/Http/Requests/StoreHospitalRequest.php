@@ -47,12 +47,6 @@ class StoreHospitalRequest extends FormRequest
      *         format="binary",
      *         description="thumbnail file for the hospital"
      *     ),
-     *     @OA\Property(
-     *         property="main_thumbnail",
-     *         type="string",
-     *         format="binary",
-     *         description="main thumbnail file for the hospital"
-     *     ),
      * )
      */
     public function authorize(): bool
@@ -74,7 +68,6 @@ class StoreHospitalRequest extends FormRequest
             'fax' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'main_thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
