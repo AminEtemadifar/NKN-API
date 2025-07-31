@@ -143,6 +143,11 @@ class DoctorController extends Controller
      *          description="Bad request"
      *      ),
      *      @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
+     *      ),
+     *      @OA\Response(
      *          response=500,
      *          description="Internal server error"
      *      )
@@ -244,6 +249,11 @@ class DoctorController extends Controller
      *      @OA\Response(
      *          response=404,
      *          description="Doctor not found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
      *      ),
      *      @OA\Response(
      *          response=500,

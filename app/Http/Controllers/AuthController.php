@@ -66,6 +66,11 @@ class AuthController extends Controller
      *         response=401,
      *         description="Unauthenticated",
      *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
+     *     ),
      * )
      */
     public function store(StoreAuthRequest $request)
@@ -83,7 +88,35 @@ class AuthController extends Controller
 
     }
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/auth/{id}",
+     *     tags={"Authentication"},
+     *     summary="Refresh authentication token",
+     *     description="Refresh the authentication token using refresh token",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UpdateAuthResourceRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Token refreshed successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
+     *     ),
+     * )
      */
     public function update(UpdateAuthRequest $request, string $id)
     {

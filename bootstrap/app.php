@@ -50,8 +50,12 @@ return Application::configure(basePath: dirname(__DIR__))
                 $status = 403;
             if ($exception instanceof AuthenticationException)
                 $status = 401;
-            if ($exception instanceof ValidationException)
-                $status = 422;
+            if ($exception instanceof ValidationException) {
+                return response()->json([
+                    'message' => 'خطا در اعتبارسنجی ورودی‌ها',
+                    'errors'  => $exception->errors(),
+                ], 422, [], JSON_UNESCAPED_UNICODE);
+            }
             if ($exception instanceof MethodNotAllowedHttpException)
                 $status = 405;
             if ($exception instanceof NotFoundHttpException)

@@ -112,6 +112,31 @@ namespace App\Http\Controllers;
  *          type="integer"
  *      ),
  * ),
+ * @OA\Schema(
+ *      schema="ValidationErrorResponse",
+ *      title="ValidationErrorResponse",
+ *      type="object",
+ *      description="422 Validation Error Response",
+ *      required={"message","errors"},
+ *      @OA\Xml(
+ *           name="ValidationErrorResponse"
+ *       ),
+ *      @OA\Property(
+ *          property="message",
+ *          type="string",
+ *          description="Validation error message",
+ *          example="خطا در اعتبارسنجی ورودی‌ها"
+ *      ),
+ *      @OA\Property(
+ *          property="errors",
+ *          type="object",
+ *          description="Field validation errors",
+ *          example={
+ *              "email": {"The email field is required."},
+ *              "password": {"The password field must be at least 8 characters."}
+ *          }
+ *      ),
+ * ),
  */
 abstract class Controller
 {

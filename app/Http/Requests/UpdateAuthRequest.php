@@ -7,7 +7,16 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateAuthRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * @OA\Schema(
+     *     schema="UpdateAuthResourceRequest",
+     *     type="object",
+     *     required={"refresh_token"},
+     *     @OA\Property(
+     *         property="refresh_token",
+     *         type="string",
+     *         description="Refresh token for authentication"
+     *     ),
+     * )
      */
     public function authorize(): bool
     {

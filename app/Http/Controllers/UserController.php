@@ -95,10 +95,7 @@ class UserController extends Controller
      *      @OA\Response(
      *          response=422,
      *          description="Validation error",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(property="errors", type="object")
-     *          )
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
      *      )
      * )
      */
@@ -201,7 +198,8 @@ class UserController extends Controller
      *      ),
      *      @OA\Response(
      *          response=422,
-     *          description="Validation error"
+     *          description="Validation error",
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
      *      )
      * )
      */

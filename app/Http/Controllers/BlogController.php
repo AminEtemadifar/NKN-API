@@ -150,6 +150,11 @@ class BlogController extends Controller
      *       @OA\Response(
      *           response=403,
      *           description="Forbidden"
+     *       ),
+     *       @OA\Response(
+     *           response=422,
+     *           description="Validation error",
+     *           @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
      *       )
      * )
      */
@@ -241,6 +246,11 @@ class BlogController extends Controller
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
      *     )
      * )
      */

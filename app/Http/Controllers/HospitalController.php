@@ -64,6 +64,11 @@ class HospitalController extends Controller
      *         response=403,
      *         description="Forbidden"
      *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
+     *     ),
      * )
      */
     public function store(StoreHospitalRequest $request)
@@ -175,6 +180,11 @@ class HospitalController extends Controller
      *      @OA\Response(
      *          response=404,
      *          description="Resource Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
      *      )
      * )
      */

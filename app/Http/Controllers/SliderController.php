@@ -141,6 +141,11 @@ class SliderController extends Controller
      *      @OA\Response(
      *          response=404,
      *          description="Resource Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationErrorResponse")
      *      )
      * )
      */
