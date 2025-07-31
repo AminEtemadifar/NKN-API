@@ -47,11 +47,11 @@ class UpdateDoctorRequest extends FormRequest
             'description' => 'nullable|string',
             'gender' => 'required|in:male,female',
             'hospital_id' => 'nullable|exists:hospitals,id',
-            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,svg',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp',
             'terms' => 'nullable|array',
             'terms.*' => 'nullable|integer|exists:terms,id',
             'portfolio' => 'nullable|array',
-            'portfolio.*' => 'nullable|image|mimes:jpeg,png,jpg,svg',
+            'portfolio.*' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp',
         ];
     }
 }

@@ -73,7 +73,6 @@ class UpdateBlogRequest extends FormRequest
             'description' => 'required|string',
             'duration' => 'nullable|integer',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg',
-            'publish' => 'nullable|boolean',
             'slug' => 'nullable|string',
         ];
     }

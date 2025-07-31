@@ -40,6 +40,7 @@ Route::group([
     Route::apiResource('hospitals', HospitalController::class)->except('index');
     Route::apiResource('taxonomies', TaxonomyController::class)->only('index');
     Route::apiResource('blogs', BlogController::class)->except(['show', 'index']);
+    Route::apiResource('doctors', DoctorController::class)->except(['index', 'show']);
 
 });
 Route::post('import', function (Request $request) {
