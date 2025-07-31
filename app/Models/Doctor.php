@@ -27,6 +27,7 @@ class Doctor extends Model implements HasMedia
         'description',
         'gender',
         'hospital_id',
+        'user_id',
         'status'
     ];
 

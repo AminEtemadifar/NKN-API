@@ -66,7 +66,7 @@ class DoctorSeeder extends Seeder
                 'email' => "admin" . rand(0, 500) . "@admin.com",
                 'password' => Hash::make('mifadev'),
             ]);
-            $user->assignRole(RoleEnum::DOC);
+            $user->assignRole(RoleEnum::DOC->value);
             $doctor->user_id = $user->id;
             $doctor->save();
 

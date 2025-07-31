@@ -5,11 +5,13 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HospitalController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\TermController;
+use App\Http\Controllers\UserController;
 use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\Taxonomy;
@@ -27,6 +29,7 @@ Route::apiResource('hospitals', HospitalController::class)->only('index');
 Route::apiResource('doctors', DoctorController::class)->only(['store']);
 Route::apiResource('blogs', BlogController::class)->only(['show', 'index']);
 Route::apiResource('search', SearchController::class)->only(['index']);
+Route::apiResource('roles', RoleController::class)->only(['index']);
 
 Route::group([
     'as' => 'api.',
@@ -41,6 +44,7 @@ Route::group([
     Route::apiResource('taxonomies', TaxonomyController::class)->only('index');
     Route::apiResource('blogs', BlogController::class)->except(['show', 'index']);
     Route::apiResource('doctors', DoctorController::class)->except(['index', 'show']);
+    Route::apiResource('users', UserController::class);
 
 });
 Route::post('import', function (Request $request) {
