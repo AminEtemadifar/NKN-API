@@ -34,13 +34,12 @@ return Application::configure(basePath: dirname(__DIR__))
             //AuthenticationMiddleware::class
         ]);
         $middleware->alias([
-            'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+            'auth' => \App\Http\Middleware\ApiAuthenticate::class,
             'auth.basic' => AuthenticateWithBasicAuth::class,
             'cache.headers' => SetCacheHeaders::class,
             'can' => Authorize::class,
             'throttle' => ThrottleRequests::class,
             'verified' => EnsureEmailIsVerified::class,
-            //'authenticate' => AuthenticationMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
@@ -48,8 +47,16 @@ return Application::configure(basePath: dirname(__DIR__))
             $status = 500;
             if ($exception instanceof AuthorizationException)
                 $status = 403;
-            if ($exception instanceof AuthenticationException)
+            if ($exception instanceof AuthenticationException) {
                 $status = 401;
+                // For API routes, return JSON response immediately
+                if ($request->expectsJson() || $request->is('api/*')) {
+                    return response()->json([
+                        'message' => 'خطا در احراز هویت',
+                        'status' => 401
+                    ], 401, [], JSON_UNESCAPED_UNICODE);
+                }
+            }
             if ($exception instanceof ValidationException) {
                 return response()->json([
                     'message' => 'خطا در اعتبارسنجی ورودی‌ها',

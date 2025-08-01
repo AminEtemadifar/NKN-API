@@ -12,10 +12,6 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
-use App\Models\Doctor;
-use App\Models\Hospital;
-use App\Models\Taxonomy;
-use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,7 +29,7 @@ Route::apiResource('roles', RoleController::class)->only(['index']);
 
 Route::group([
     'as' => 'api.',
-    //'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
 ], function () {
     Route::delete('auth', [AuthController::class, 'destroy']);
     Route::apiResource('auth', AuthController::class)->except(['store', 'show', 'destroy']);

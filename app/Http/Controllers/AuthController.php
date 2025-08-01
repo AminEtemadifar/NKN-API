@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UnauthorizedException;
 use App\Http\Requests\StoreAuthRequest;
 use App\Http\Requests\UpdateAuthRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Validation\UnauthorizedException;
 use Laravel\Passport\RefreshToken;
 
 class AuthController extends Controller
@@ -130,7 +130,7 @@ class AuthController extends Controller
         $refreshToken = RefreshToken::where('id', $refreshToken)->first();
 
         if ($refreshToken && $refreshToken->isExpired()) {
-            return throw new UnauthorizedException();
+            throw new UnauthorizedException();
         }
 
         $user = $refreshToken->accessToken->user;
