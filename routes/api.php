@@ -62,14 +62,16 @@ Route::post('import', function (Request $request) {
     // Loop through the sheet data and insert into the doctors table
     unset($sheetData[0]);
 
-    foreach ($sheetData as $row) {
+    foreach ($sheetData as $key => $row) {
         $data = [
-            'first_name' => $row[3],
-            'last_name' => $row[2],
-            'code' => $row[1],
-            'sub_title' => $row[5],
-            'hospital' => $row[7],
+            'first_name' => $row[9],
+            'last_name' => $row[1],
+            'code' => $row[3],
+            'sub_title' => $row[ 5],
+            'hospital' => $row[6],
+            'gender' => $row[2],
             'term' => $row[4],
+            'redirect_link' => empty($row[8]) ? null : $row[8],
         ];
         \App\Jobs\ImportDoctorJob::dispatch($data);
     }

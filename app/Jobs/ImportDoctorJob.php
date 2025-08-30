@@ -28,18 +28,31 @@ class ImportDoctorJob implements ShouldQueue
     {
         $hospital = Hospital::where('name', $this->data['hospital'])->first();
         // Create the doctor
-        $doctor = Doctor::create([
+        $doctor = Doctor::query()->updateOrCreate(
+            [
+                'code' => $this->data['code'],
+            ],[
             'first_name' => $this->data['first_name'],
             'last_name' => $this->data['last_name'],
-            'code' => $this->data['code'],
             'sub_title' => $this->data['sub_title'],
             'hospital_id' => $hospital?->id,
-            'gender' => 'male',
+            'gender' => $this->data['gender'],
             'status' => 1,
-            'redirect' => 'https://pa.nikan365.ir/main/doctors?turnGroupId=0&turnGeneralTypeId=0',
+            'redirect' => $this->data['redirect_link'],
         ]);
 
-        $term = Term::query()->firstOrCreate([
+        $hospital_taxonomy = Taxonomy::where('key', 'hospital')->first();
+        $hospital_term = Term::query()->updateOrCreate([
+            'title' => $this->data['hospital'],
+            'taxonomy_id' => $hospital_taxonomy->id,
+        ], [
+            'slug' => preg_replace('/\s+/', '_', $this->data['hospital']),
+            'is_main' => 0,
+            'is_filter' => 1,
+            'is_footer' => 0,
+        ]);
+        $doctor->terms()->attach($hospital_term->id);
+        $term = Term::query()->updateOrCreate([
             'title' => $this->data['term'],
         ], [
             'slug' => preg_replace('/\s+/', '_', $this->data['term']),

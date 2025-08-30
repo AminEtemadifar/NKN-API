@@ -97,7 +97,7 @@ class DoctorController extends Controller
                         ->where('terms.slug', 'like', '%' . $decodedSlug . '%')
                         ->select('doctors.*', 'terms.id as term_id');
                 }),
-                AllowedFilter::exact('hospital', 'hospital_id'),
+                AllowedFilter::exact('hospital', 'terms.id'),
                 AllowedFilter::callback('search', function (Builder $query, $value) {
                     $query->where('first_name', 'like', '%' . $value . '%');
                     $query->orWhere('last_name', 'like', '%' . $value . '%');

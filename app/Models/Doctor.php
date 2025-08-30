@@ -35,9 +35,9 @@ class Doctor extends Model implements HasMedia
     // Mutator
     public function setGenderAttribute($value)
     {
-        if ($value == 'male') {
+        if ($value == 'male' || $value == 'مرد') {
             $this->attributes['gender'] = GenderEnum::MALE->value;
-        } elseif ($value == 'female') {
+        } elseif ($value == 'female' || $value == 'زن') {
             $this->attributes['gender'] = GenderEnum::FEMALE->value;
         } else {
             $this->attributes['gender'] = null;
