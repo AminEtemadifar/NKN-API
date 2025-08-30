@@ -78,9 +78,9 @@ class Doctor extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    public function hospital(): BelongsTo
+    public function hospitals(): BelongsToMany
     {
-        return $this->belongsTo(Hospital::class);
+        return $this->belongsToMany(Term::class)->where('taxonomy_id', Taxonomy::getTaxonomyIdByKey(Taxonomy::HOSPITAL_KEY));
     }
 
     public function getDefaultMedia(): object

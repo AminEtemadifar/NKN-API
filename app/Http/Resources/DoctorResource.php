@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -86,10 +87,10 @@ class DoctorResource extends JsonResource
      *          @OA\Items(ref="#/components/schemas/TermResource")
      *      ),
      *     @OA\Property(
-     *          property="hospital",
+     *          property="hospitals",
      *          type="array",
-     *          description="hospital of doctor",
-     *          @OA\Items(ref="#/components/schemas/HospitalResource")
+     *          description="hospitals of doctor",
+     *          @OA\Items(ref="#/components/schemas/TermResource")
      *      )
      * )
      */
@@ -109,7 +110,7 @@ class DoctorResource extends JsonResource
             "description" => $this->description,
             "portfolio" => FileResource::collection($this->getMedia('portfolio')),
             "gender" => $this->gender,
-            "hospital" => HospitalResource::make($this->hospital),
+            "hospitals" => TermResource::collection($this->hospitals),
         ];
     }
 }
